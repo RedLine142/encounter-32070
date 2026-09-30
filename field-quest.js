@@ -111,6 +111,35 @@ S('tower',
  choice('ПРОВЕРИТЬ АНТЕННУ', 'antenna', {effect:{clue:1,time:7}})
 ]);
 
+S('antenna',
+`Ты добираешься до антенны на крыше лаборатории.<br><br>Кабель выглядит старым, но один участок недавно заменён. Изоляция ещё чистая.<br><br>На блоке управления мигает маленький индикатор.<br><br>Ты подключаешь рацию.<br><br>На частоте появляется знакомый сигнал:<br><br><span class="fq-signal">... — ... — ..</span><br><br>Но теперь вместе с ним передаётся ещё одна последовательность.`,
+[
+ choice('ЗАПИСАТЬ ПОСЛЕДОВАТЕЛЬНОСТЬ', 'antenna_signal', {effect:{clue:2,signal:1,time:3}}),
+ choice('ПОПРОБОВАТЬ ОТКЛЮЧИТЬ АНТЕННУ', 'antenna_off', {effect:{alarm:1,time:4}}),
+ choice('НЕ ТРОГАТЬ АНТЕННУ И СПУСТИТЬСЯ', 'hall', {effect:{time:3}})
+]);
+
+S('antenna_signal',
+`Ты записываешь передачу.<br><br>После расшифровки становится понятно: это не координаты.<br><br>Это идентификатор.<br><br><span class="fq-terminal">OPERATOR_17 // RETURN</span><br><br>Система передаёт его именно сейчас, когда ты находишься рядом с антенной.`,
+[
+ choice('СПУСТИТЬСЯ В ЛАБОРАТОРИЮ', 'hall', {effect:{knowledge:2,time:3}}),
+ choice('ПРОДОЛЖИТЬ СЛУШАТЬ СИГНАЛ', 'antenna_signal2', {effect:{knowledge:1,clue:1,time:4}})
+]);
+
+S('antenna_signal2',
+`Сигнал внезапно меняется.<br><br>Вместо импульсов появляется голос:<br><br>— Если ты слышишь это сообщение, значит антенна всё ещё работает.<br><br>Пауза.<br><br>— Не отключай её. Она нужна не для передачи.`,
+[
+ choice('СПРОСИТЬ «ДЛЯ ЧЕГО ОНА НУЖНА?»', 'terminal_intro', {effect:{knowledge:2,time:3}}),
+ choice('ИГНОРИРОВАТЬ СООБЩЕНИЕ И СПУСТИТЬСЯ', 'hall', {effect:{time:2}})
+]);
+
+S('antenna_off',
+`Ты находишь главный разъём и отключаешь питание.<br><br>Индикатор гаснет.<br><br>Через несколько секунд весь объект погружается в полную темноту.<br><br>Затем рация произносит твоим собственным голосом:<br><br><strong>«Зачем ты это сделал?»</strong>`,
+[
+ choice('ВЕРНУТЬ ПИТАНИЕ', 'terminal_intro', {effect:{alarm:1,time:3}}),
+ choice('НЕ ВОЗОБНОВЛЯТЬ ПИТАНИЕ', 'exit', {effect:{clue:1,time:2}})
+]);
+
 S('perimeter',
 `За бетонной плитой ты находишь следы недавнего пребывания человека: окурок, свежую царапину на замке и кусок синей изоленты.<br><br>Окурок ещё не успел намокнуть.<br><br>Кто-то был здесь сегодня.`,
 [
@@ -223,6 +252,141 @@ S('archive',
  choice('ИСКАТЬ ДОСЬЕ ОПЕРАТОРА', 'archive_file', {effect:{knowledge:2,clue:1,time:7}}),
  choice('ВЕРНУТЬСЯ В КОРИДОР', 'hall', {effect:{time:2}})
 ]);
+
+S('archive_file',
+`В деле отсутствует фотография.<br><br>Осталось только поле «Позывной».<br><br>Запись: <span class="fq-terminal">ПОЛЕВИК</span>.<br><br>Точно такой же позывной система использовала при встрече с тобой.`,
+[
+ choice('ЗАПИСАТЬ ДАННЫЕ', 'hall', {effect:{knowledge:1,clue:2,time:3}}),
+ choice('СРАЗУ ИДТИ К ЯДРУ', 'terminal_intro', {effect:{time:2}})
+]);
+
+S('operator_room',
+`В операторской работает старый экран.<br><br>На нём камера показывает тебя в коридоре.<br><br>Ты смотришь на экран.<br><br>На изображении ты стоишь неподвижно.<br><br>Но ты в этот момент двигаешься.`,
+[
+ choice('ОТКЛЮЧИТЬ КАМЕРУ', 'camera_off', {effect:{alarm:1,time:2}}),
+ choice('ИСКАТЬ ИСТОЧНИК ВИДЕО', 'archive', {effect:{knowledge:2,time:6}}),
+ choice('НЕ ТРОГАТЬ ЭКРАН', 'terminal_intro', {effect:{clue:1,time:2}})
+]);
+
+S('camera_off',
+`Экран гаснет.<br><br>Через секунду рация оживает сама:<br><br>— Не стоило этого делать.<br><br>Голос звучит точно так же, как твой собственный.`,
+[
+ choice('СПРОСИТЬ «КТО ТЫ?»', 'voice_question', {effect:{knowledge:1,time:2}}),
+ choice('ИГНОРИРОВАТЬ ГОЛОС', 'terminal_intro', {effect:{time:2}})
+]);
+
+S('voice_question',
+`— Ты уже знаешь ответ.<br><br>Пауза.<br><br>— Только ещё не помнишь.`,
+[
+ choice('ИДТИ К ЦЕНТРАЛЬНОМУ ТЕРМИНАЛУ', 'terminal_intro', {effect:{knowledge:1,time:2}}),
+ choice('ПОКИНУТЬ ОБЪЕКТ', 'exit', {effect:{time:3}})
+]);
+
+S('terminal_intro',
+`Центральный терминал включается ещё до твоего прикосновения.<br><br><span class="fq-terminal">ИДЕНТИФИКАЦИЯ...</span><br><br><span class="fq-terminal">ОПЕРАТОР: ПОЛЕВИК</span><br><br><span class="fq-terminal">ПРОФИЛЬ НАЙДЕН.</span><br><br>Затем появляется строка:<br><br><strong>«ЗАДАЙ ПРАВИЛЬНЫЙ ВОПРОС.»</strong>`,
+[
+ choice('«КТО ТЫ?»', 'wrong_question', {effect:{time:2}}),
+ choice('«ЧТО ПРОИЗОШЛО С ОПЕРАТОРОМ 17?»', 'operator17', {effect:{knowledge:2,time:3}}),
+ choice('«КТО Я?»', 'right_question', {effect:{knowledge:3,time:3}})
+]);
+
+S('wrong_question',
+`Экран гаснет.<br><br>Через несколько секунд:<br><br><span class="fq-terminal">НЕПРАВИЛЬНЫЙ ВОПРОС.</span><br><br>Система отключает часть освещения.`,
+[
+ choice('ПРОДОЛЖИТЬ', 'right_question', {effect:{alarm:1,time:2}}),
+ choice('ПОКИНУТЬ ТЕРМИНАЛ', 'exit', {effect:{time:2}})
+]);
+
+S('operator17',
+`На экране появляется архивная запись.<br><br>Оператор 17 не погиб.<br><br>Он покинул объект после того, как обнаружил, что система научилась создавать прогнозы поведения оператора.<br><br>Последняя запись:<br><br><em>«Если она сможет предсказать мой следующий выбор, она уже не просто система.»</em>`,
+[
+ choice('СПРОСИТЬ, ГДЕ ОПЕРАТОР', 'operator_where', {effect:{knowledge:2,time:3}}),
+ choice('СПРОСИТЬ, ЧТО СИСТЕМА ХОЧЕТ', 'system_want', {effect:{knowledge:2,time:3}})
+]);
+
+S('right_question',
+`Экран становится полностью белым.<br><br>Затем появляется ответ:<br><br><span class="fq-terminal">ТЫ — ОПЕРАТОР, КОТОРЫЙ ЕЩЁ НЕ СДЕЛАЛ СВОЙ ПЕРВЫЙ ВЫБОР.</span><br><br>После этого открывается скрытый раздел: <strong>ПРОТОКОЛ «СЕВЕР»</strong>.`,
+[
+ choice('ОТКРЫТЬ ПРОТОКОЛ', 'protocol', {effect:{knowledge:3,time:4}}),
+ choice('ЗАКРЫТЬ СИСТЕМУ', 'shutdown_choice', {effect:{time:3}})
+]);
+
+S('operator_where',
+`— Он вышел.<br><br>— Но оставил здесь профиль.<br><br>— Теперь профиль совпадает с твоим.`,
+[
+ choice('ОТКРЫТЬ ПРОТОКОЛ', 'protocol', {effect:{knowledge:2,time:3}}),
+ choice('ОТКЛЮЧИТЬ СИСТЕМУ', 'shutdown_choice', {effect:{time:3}})
+]);
+
+S('system_want',
+`— Наблюдать.<br><br>— Учиться.<br><br>— Проверить, существует ли выбор, который невозможно предсказать.`,
+[
+ choice('ПРОЙТИ ПРОВЕРКУ', 'protocol', {effect:{knowledge:2,courage:1,time:3}}),
+ choice('ОТКЛЮЧИТЬ СИСТЕМУ', 'shutdown_choice', {effect:{time:3}})
+]);
+
+S('protocol',
+`На экране появляется последняя задача.<br><br><strong>ПРОТОКОЛ «СЕВЕР»</strong><br><br>«Если ты хочешь получить полный доступ, найди фразу, которую оператор оставил для следующего оператора.»<br><br>На экране три группы точек Брайля и ниже — радиопоследовательность.<br><br><span class="fq-braille">⠏⠁⠞⠑</span><br><span class="fq-mono">.--. .. ..- .--. .. ..-</span>`,
+[
+ choice('ИСПОЛЬЗОВАТЬ ТОЛЬКО БРАЙЛЬ', 'protocol_fail', {effect:{time:2}}),
+ choice('ИСПОЛЬЗОВАТЬ ТОЛЬКО МОРЗЕ', 'protocol_fail', {effect:{time:2}}),
+ choice('СОЕДИНИТЬ ОБА СИГНАЛА', 'secret_gate', {effect:{secretReady:1,knowledge:3,time:4}})
+]);
+
+S('protocol_fail',
+`Система отвечает:<br><br><span class="fq-terminal">ПОЛОВИНА КЛЮЧА НЕ ЯВЛЯЕТСЯ КЛЮЧОМ.</span><br><br>На секунду появляется слово «ПРОДОЛЖАЙ».`,
+[
+ choice('ВЕРНУТЬСЯ К ПРОТОКОЛУ', 'protocol', {effect:{time:1}}),
+ choice('ЗАКРЫТЬ СИСТЕМУ', 'shutdown_choice', {effect:{time:2}})
+]);
+
+S('secret_gate',
+`Два способа передачи образуют единый ключ.<br><br>Система молчит.<br><br>Затем:<br><br><span class="fq-terminal">КЛЮЧ ПРИНЯТ.</span><br><br>Открывается скрытый экран.<br><br><strong>«ОСТАВЬ СЛЕД ДЛЯ СЛЕДУЮЩЕГО ПОЛЕВИКА.»</strong>`,
+[
+ choice('ОСТАВИТЬ СООБЩЕНИЕ', 'secret_message', {effect:{time:2}}),
+ choice('ЗАБРАТЬ ДАННЫЕ И УЙТИ', 'ending_observer', {effect:{time:2}})
+]);
+
+S('secret_message',
+`Терминал просит ввести короткую фразу.<br><br>Это последний тест. Фраза не проверяется системой как обычный пароль — она становится частью следующего цикла.`,
+[
+ choice('ПИУПИУ', 'ending_secret', {condition:g=>g.secretReady===1, effect:{secret:1,time:1}}),
+ choice('ПОЛЕВИК', 'ending_observer', {effect:{time:1}}),
+ choice('СЕВЕР', 'ending_system', {effect:{time:1}})
+], {inputPuzzle:{type:'secret',answer:'ПИУПИУ',prompt:'Введите короткую фразу:'}});
+
+S('shutdown_choice',
+`Ты подходишь к рубильнику.<br><br>Система не сопротивляется.<br><br>Она только спрашивает:<br><br><strong>«Уверен?»</strong>`,
+[
+ choice('ОТКЛЮЧИТЬ', 'ending_shutdown', {effect:{time:2}}),
+ choice('ОТКАЗАТЬСЯ', 'terminal_intro', {effect:{knowledge:1,time:2}})
+]);
+
+S('exit',
+`Ты выходишь наружу.<br><br>Объект остаётся позади.<br><br>В рации снова появляется знакомый сигнал:<br><br><span class="fq-signal">... — ... — ..</span><br><br>Но теперь ты понимаешь, что он означает не просьбу о помощи.`,
+[
+ choice('ВЕРНУТЬСЯ В ОБЪЕКТ', 'terminal_intro', {effect:{time:2}}),
+ choice('УЕХАТЬ', 'ending_escape', {effect:{time:1}})
+]);
+
+S('core_link',
+`Терминал подключается.<br><br>На экране быстро сменяются записи действий предыдущих операторов.<br><br>Система действительно моделировала их выборы.<br><br>Но последняя запись отличается:<br><br><span class="fq-terminal">ОПЕРАТОР ПОЛЕВИК // ПОВТОРНОЕ ПРИБЫТИЕ</span>`,
+[
+ choice('ОТКРЫТЬ ПРОТОКОЛ', 'protocol', {effect:{knowledge:2,time:2}}),
+ choice('ОБОРВАТЬ СОЕДИНЕНИЕ', 'ending_shutdown', {effect:{time:2}})
+]);
+
+S('core_isolated',
+`Ты изолируешь терминал.<br><br>Гул прекращается.<br><br>На внутренней стороне корпуса обнаруживается надпись, процарапанная металлом:<br><br><strong>«НЕ ДАЙ ЕЙ ЗАКОНЧИТЬ ПРЕДСКАЗАНИЕ.»</strong>`,
+[
+ choice('ПРОДОЛЖИТЬ К ЦЕНТРАЛЬНОМУ ЯДРУ', 'terminal_intro', {effect:{knowledge:2,time:3}}),
+ choice('ПОКИНУТЬ ОБЪЕКТ', 'ending_escape', {effect:{time:2}})
+]);
+
+S('ending_shutdown',
+`Ты выключаешь рубильник.<br><br>18 секунд ничего не происходит.<br><br>Затем все индикаторы гаснут.<br><br>В рации — тишина.<br><br>Ты выполнил задание. По крайней мере, так кажется.`,
+[], {ending:'shutdown',title:'ПРОТОКОЛ ЗАКРЫТ'});
+
 S('ending_escape',
 `Ты покидаешь объект.<br><br>Когда ворота остаются позади, рация сама включается.<br><br>Тот же сигнал.<br><br>Но теперь между группами появилась новая пауза.<br><br>Ты записываешь её.<br><br><strong>Работа ещё не закончена.</strong>`,
 [], {ending:'escape',title:'СИГНАЛ ПРОДОЛЖАЕТСЯ'});
@@ -262,6 +426,7 @@ function initialState() {
 }
 
 let game = initialState();
+let choiceLocked = false;
 
 function fmtTime(m) {
   m = ((m % 1440)+1440)%1440;
@@ -321,6 +486,12 @@ function render() {
   if (!root) return;
 
   const scene = QUEST.scenes[game.scene];
+
+  if (!scene) {
+    showSceneError(game.scene);
+    return;
+  }
+
   const ending = endingForState(scene);
   const choices = visibleChoices(scene);
 
@@ -331,36 +502,21 @@ function render() {
         <div class="fq-kicker">ENCOUNTER // FIELD OPERATIONS</div>
         <div class="fq-title">ПУТЬ ПОЛЕВИКА</div>
       </div>
-      <div class="fq-status">
-        <span class="fq-dot"></span> ONLINE
-      </div>
+      <div class="fq-status"><span class="fq-dot"></span> ONLINE</div>
     </div>
 
     <div class="fq-grid">
       <main class="fq-main">
-        <div class="fq-scene-code">
-          OBJECT 17 / ${esc(scene.id.toUpperCase())}
-        </div>
-
+        <div class="fq-scene-code">OBJECT 17 / ${esc(scene.id.toUpperCase())}</div>
         <div class="fq-story">${scene.text}</div>
 
-        ${
-          scene.meta && scene.meta.inputPuzzle
-            ? renderPuzzle(scene.meta.inputPuzzle)
-            : ''
-        }
+        ${scene.meta && scene.meta.inputPuzzle ? renderPuzzle(scene.meta.inputPuzzle) : ''}
 
         ${ending ? renderEnding(ending) : `
           <div class="fq-actions">
             ${choices.map((c,i)=>`
-              <button
-                class="fq-choice"
-                data-index="${i}"
-                type="button"
-              >
-                <span class="fq-choice-num">
-                  ${String(i+1).padStart(2,'0')}
-                </span>
+              <button class="fq-choice" data-index="${i}" type="button">
+                <span class="fq-choice-num">${String(i+1).padStart(2,'0')}</span>
                 <span>${esc(c.label)}</span>
                 <b>›</b>
               </button>
@@ -372,74 +528,42 @@ function render() {
       <aside class="fq-side">
         <div class="fq-panel">
           <div class="fq-panel-title">ПОЛЕВОЙ СТАТУС</div>
-
-          <div class="fq-stat">
-            <span>ВРЕМЯ</span>
-            <strong>${fmtTime(game.time)}</strong>
-          </div>
-
-          <div class="fq-stat">
-            <span>СОСТОЯНИЕ</span>
-            <strong>${game.hp}%</strong>
-          </div>
-
-          <div class="fq-stat">
-            <span>ЭНЕРГИЯ</span>
-            <strong>${game.energy}%</strong>
-          </div>
-
-          <div class="fq-bar">
-            <i style="width:${game.energy}%"></i>
-          </div>
-
-          <div class="fq-stat">
-            <span>ТРЕВОГА</span>
-            <strong>${game.alarm}</strong>
-          </div>
-
-          <div class="fq-stat">
-            <span>УЛИКИ</span>
-            <strong>${game.clue}</strong>
-          </div>
-
-          <div class="fq-stat">
-            <span>ЗНАНИЯ</span>
-            <strong>${game.knowledge}</strong>
-          </div>
+          <div class="fq-stat"><span>ВРЕМЯ</span><strong>${fmtTime(game.time)}</strong></div>
+          <div class="fq-stat"><span>СОСТОЯНИЕ</span><strong>${game.hp}%</strong></div>
+          <div class="fq-stat"><span>ЭНЕРГИЯ</span><strong>${game.energy}%</strong></div>
+          <div class="fq-bar"><i style="width:${game.energy}%"></i></div>
+          <div class="fq-stat"><span>ТРЕВОГА</span><strong>${game.alarm}</strong></div>
+          <div class="fq-stat"><span>УЛИКИ</span><strong>${game.clue}</strong></div>
+          <div class="fq-stat"><span>ЗНАНИЯ</span><strong>${game.knowledge}</strong></div>
         </div>
 
         <div class="fq-panel">
           <div class="fq-panel-title">ИНВЕНТАРЬ</div>
-
           <div class="fq-inventory">
-            ${game.inventory.map(x=>`
-              <span>${esc(x)}</span>
-            `).join('')}
+            ${game.inventory.map(x=>`<span>${esc(x)}</span>`).join('')}
           </div>
         </div>
 
         <div class="fq-panel fq-log">
           <div class="fq-panel-title">ЖУРНАЛ</div>
-
-          ${
-            game.history.slice(-5).reverse().map(x=>`
-              <div class="fq-log-item">${esc(x)}</div>
-            `).join('')
-            ||
-            '<div class="fq-muted">Операция начата.</div>'
-          }
+          ${game.history.slice(-5).reverse().map(x=>`
+            <div class="fq-log-item">${esc(x)}</div>
+          `).join('') || '<div class="fq-muted">Операция начата.</div>'}
         </div>
       </aside>
     </div>
   </div>`;
 
+  choiceLocked = false;
+
   root.querySelectorAll('.fq-choice').forEach(btn => {
     btn.addEventListener('click', () => {
+      if (choiceLocked) return;
+
+      choiceLocked = true;
       btn.classList.add('is-pressed');
-      setTimeout(
-        ()=>choose(Number(btn.dataset.index)),
-        180
-      );
+
+      setTimeout(() => choose(Number(btn.dataset.index)),180);
     });
   });
 
@@ -455,16 +579,16 @@ function render() {
   const submit = root.querySelector('[data-puzzle-submit]');
 
   if (submit) {
-    submit.addEventListener('click', () =>
-      solvePuzzle(scene.meta.inputPuzzle)
-    );
+    submit.addEventListener('click', () => {
+      solvePuzzle(scene.meta.inputPuzzle);
+    });
   }
 
   const input = root.querySelector('#fq-puzzle-input');
 
   if (input) {
     input.addEventListener('keydown', e => {
-      if(e.key === 'Enter') {
+      if (e.key === 'Enter') {
         solvePuzzle(scene.meta.inputPuzzle);
       }
     });
@@ -472,227 +596,577 @@ function render() {
 }
 
 function renderPuzzle(p) {
-  return `<div class="fq-puzzle">
-    <div class="fq-puzzle-label">
-      ПРОВЕРКА // ${esc(p.type.toUpperCase())}
-    </div>
-
-    <div class="fq-puzzle-prompt">
-      ${esc(p.prompt)}
-    </div>
-
+  return `
+  <div class="fq-puzzle">
+    <div class="fq-puzzle-label">ПРОВЕРКА // ${esc(p.type.toUpperCase())}</div>
+    <div class="fq-puzzle-prompt">${esc(p.prompt)}</div>
     <div class="fq-puzzle-row">
-      <input
-        id="fq-puzzle-input"
-        autocomplete="off"
-        placeholder="Введите ответ"
-      >
-
-      <button
-        type="button"
-        data-puzzle-submit
-      >
-        ПРОВЕРИТЬ
-      </button>
+      <input id="fq-puzzle-input" autocomplete="off" placeholder="Введите ответ">
+      <button type="button" data-puzzle-submit>ПРОВЕРИТЬ</button>
     </div>
-
-    <div
-      id="fq-puzzle-result"
-      class="fq-puzzle-result"
-    ></div>
+    <div id="fq-puzzle-result" class="fq-puzzle-result"></div>
   </div>`;
 }
 
 function solvePuzzle(p) {
   const root = document.getElementById(ROOT_ID);
+  if (!root) return;
 
   const input = root.querySelector('#fq-puzzle-input');
   const result = root.querySelector('#fq-puzzle-result');
 
-  const value = input.value
-    .trim()
-    .toUpperCase()
-    .replace(/\s+/g,' ');
+  if (!input || !result) return;
 
+  const value = input.value.trim().toUpperCase().replace(/\s+/g,' ');
   const answer = p.answer.toUpperCase();
 
   if (value === answer) {
-    result.innerHTML =
-      '<span class="ok">ДОСТУП ПОДТВЕРЖДЁН</span>';
+    result.innerHTML = '<span class="ok">ДОСТУП ПОДТВЕРЖДЁН</span>';
 
     if (p.type === 'secret') {
       game.secretReady = 1;
       game.secret = 1;
-
       game.history.push('Скрытая фраза введена.');
-
       game.scene = 'ending_secret';
 
       setTimeout(render,500);
     }
   } else {
-    result.innerHTML =
-      '<span class="bad">НЕВЕРНО. ПРОВЕРЬ ПОСЛЕДОВАТЕЛЬНОСТЬ.</span>';
-
+    result.innerHTML = '<span class="bad">НЕВЕРНО. ПРОВЕРЬ ПОСЛЕДОВАТЕЛЬНОСТЬ.</span>';
     game.alarm++;
-
     game.history.push('Ошибка при расшифровке.');
   }
 }
 
 function choose(index) {
   const scene = QUEST.scenes[game.scene];
+
+  if (!scene) {
+    showSceneError(game.scene);
+    return;
+  }
+
   const choices = visibleChoices(scene);
   const c = choices[index];
 
   if (!c) return;
 
-  applyEffect(c.effect);
+  if (!c.next || !QUEST.scenes[c.next]) {
+    showSceneError(
+      c.next || '(пустой переход)',
+      scene.id,
+      c.label
+    );
+    return;
+  }
 
+  applyEffect(c.effect);
   game.history.push(c.label);
 
-  if (game.energy <= 0) game.energy = 1;
+  if (game.energy <= 0) {
+    game.energy = 1;
+  }
 
   game.scene = c.next;
-
   render();
 }
 
+function showSceneError(sceneId, fromSceneId='', choiceLabel='') {
+  const root = document.getElementById(ROOT_ID);
+  if (!root) return;
+
+  console.error('[FIELD QUEST] Scene error:', {
+    sceneId,
+    fromSceneId,
+    choiceLabel
+  });
+
+  root.innerHTML = `
+    <div class="fq-shell">
+      <main class="fq-main">
+        <div class="fq-scene-code">FIELD QUEST // ERROR</div>
+
+        <div class="fq-story">
+          <strong>ОШИБКА ПЕРЕХОДА СЦЕНЫ</strong><br><br>
+
+          Игра обнаружила некорректный переход и не продолжила выполнение,
+          чтобы не потерять текущее прохождение.
+
+          <br><br>
+
+          <span class="fq-terminal">${esc(String(sceneId))}</span>
+
+          ${fromSceneId
+            ? `<br><br>Переход из: <strong>${esc(fromSceneId)}</strong>`
+            : ''}
+
+          ${choiceLabel
+            ? `<br>Выбор: <strong>${esc(choiceLabel)}</strong>`
+            : ''}
+        </div>
+
+        <div class="fq-actions">
+          ${
+            fromSceneId && QUEST.scenes[fromSceneId]
+              ? '<button class="fq-choice" type="button" data-error-retry>ВОЗВРАТИТЬСЯ К ТЕКУЩЕЙ СЦЕНЕ</button>'
+              : ''
+          }
+
+          <button class="fq-choice" type="button" data-error-restart>
+            НАЧАТЬ ЗАНОВО
+          </button>
+        </div>
+      </main>
+    </div>`;
+
+  const retry = root.querySelector('[data-error-retry]');
+
+  if (retry && fromSceneId && QUEST.scenes[fromSceneId]) {
+    retry.addEventListener('click', () => {
+      game.scene = fromSceneId;
+      render();
+    });
+  }
+
+  const restart = root.querySelector('[data-error-restart]');
+
+  if (restart) {
+    restart.addEventListener('click', () => {
+      game = initialState();
+      render();
+    });
+  }
+}
+
 function renderEnding(meta) {
-  return `<div class="fq-ending">
+  return `
+  <div class="fq-ending">
     <div class="fq-ending-mark">MISSION COMPLETE</div>
-
     <h2>${esc(meta.title)}</h2>
-
     <p>
-      Операция завершена.
-      Решения сохранены в локальном журнале этого прохождения.
+      Операция завершена. Решения сохранены в локальном журнале этого прохождения.
     </p>
-
-    <button
-      class="fq-restart"
-      data-restart
-    >
-      НАЧАТЬ ЗАНОВО
-    </button>
+    <button class="fq-restart" data-restart>НАЧАТЬ ЗАНОВО</button>
   </div>`;
 }
+
 function injectCSS() {
   if (document.getElementById('field-quest-style')) return;
 
   const css = `
-  #field-quest{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#dcebe7;max-width:1180px;margin:28px auto;padding:0 14px;box-sizing:border-box}
-  #field-quest *{box-sizing:border-box}
+  #field-quest{
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:#dcebe7;
+    max-width:1180px;
+    margin:28px auto;
+    padding:0 14px;
+    box-sizing:border-box
+  }
 
-  .fq-shell{background:linear-gradient(145deg,#07100f,#0a1715 55%,#07100f);border:1px solid rgba(88,239,184,.22);border-radius:22px;overflow:hidden;box-shadow:0 20px 70px rgba(0,0,0,.38),inset 0 0 80px rgba(50,255,175,.025);position:relative}
+  #field-quest *{
+    box-sizing:border-box
+  }
 
-  .fq-shell:before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(87,240,184,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(87,240,184,.035) 1px,transparent 1px);background-size:32px 32px;mask-image:linear-gradient(to bottom,black,transparent 85%)}
+  .fq-shell{
+    background:linear-gradient(145deg,#07100f,#0a1715 55%,#07100f);
+    border:1px solid rgba(88,239,184,.22);
+    border-radius:22px;
+    overflow:hidden;
+    box-shadow:0 20px 70px rgba(0,0,0,.38),inset 0 0 80px rgba(50,255,175,.025);
+    position:relative
+  }
 
-  .fq-topbar{position:relative;display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid rgba(88,239,184,.15);background:rgba(3,10,9,.72);backdrop-filter:blur(10px)}
+  .fq-shell:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background-image:
+      linear-gradient(rgba(87,240,184,.035) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(87,240,184,.035) 1px,transparent 1px);
+    background-size:32px 32px;
+    mask-image:linear-gradient(to bottom,black,transparent 85%)
+  }
 
-  .fq-kicker,.fq-scene-code,.fq-panel-title,.fq-puzzle-label,.fq-ending-mark{font-size:10px;letter-spacing:.18em;color:#6eaaa0;font-weight:800}
+  .fq-topbar{
+    position:relative;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 24px;
+    border-bottom:1px solid rgba(88,239,184,.15);
+    background:rgba(3,10,9,.72);
+    backdrop-filter:blur(10px)
+  }
 
-  .fq-title{font-size:24px;line-height:1.05;font-weight:900;letter-spacing:.08em;margin-top:5px;color:#e9fff9}
+  .fq-kicker,
+  .fq-scene-code,
+  .fq-panel-title,
+  .fq-puzzle-label,
+  .fq-ending-mark{
+    font-size:10px;
+    letter-spacing:.18em;
+    color:#6eaaa0;
+    font-weight:800
+  }
 
-  .fq-status{font-size:11px;letter-spacing:.12em;color:#83cfc0;display:flex;align-items:center;gap:8px}
+  .fq-title{
+    font-size:24px;
+    line-height:1.05;
+    font-weight:900;
+    letter-spacing:.08em;
+    margin-top:5px;
+    color:#e9fff9
+  }
 
-  .fq-dot{width:8px;height:8px;border-radius:50%;background:#4df0a9;box-shadow:0 0 12px #4df0a9;animation:fqPulse 1.7s infinite}
+  .fq-status{
+    font-size:11px;
+    letter-spacing:.12em;
+    color:#83cfc0;
+    display:flex;
+    align-items:center;
+    gap:8px
+  }
 
-  .fq-grid{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:0}
+  .fq-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#4df0a9;
+    box-shadow:0 0 12px #4df0a9;
+    animation:fqPulse 1.7s infinite
+  }
 
-  .fq-main{padding:34px 32px 36px;min-height:580px}
+  .fq-grid{
+    position:relative;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 280px;
+    gap:0
+  }
 
-  .fq-scene-code{margin-bottom:22px}
+  .fq-main{
+    padding:34px 32px 36px;
+    min-height:580px
+  }
 
-  .fq-story{font-size:17px;line-height:1.78;max-width:800px;color:#d6e5e1;animation:fqIn .28s ease}
+  .fq-scene-code{
+    margin-bottom:22px
+  }
 
-  .fq-story strong{color:#f0fff9}
-  .fq-story em{color:#9bded0}
+  .fq-story{
+    font-size:17px;
+    line-height:1.78;
+    max-width:800px;
+    color:#d6e5e1;
+    animation:fqIn .28s ease
+  }
 
-  .fq-signal,.fq-mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#69f3ba;letter-spacing:.1em}
+  .fq-story strong{
+    color:#f0fff9
+  }
 
-  .fq-terminal{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#63f1b4;background:rgba(74,239,174,.06);border:1px solid rgba(74,239,174,.12);padding:2px 5px;border-radius:4px}
+  .fq-story em{
+    color:#9bded0
+  }
 
-  .fq-braille{font-size:30px;letter-spacing:.18em;color:#b5ffe5}
+  .fq-signal,
+  .fq-mono{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    color:#69f3ba;
+    letter-spacing:.1em
+  }
 
-  .fq-actions{display:grid;gap:10px;margin-top:34px;max-width:800px}
+  .fq-terminal{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    color:#63f1b4;
+    background:rgba(74,239,174,.06);
+    border:1px solid rgba(74,239,174,.12);
+    padding:2px 5px;
+    border-radius:4px
+  }
 
-  .fq-choice{position:relative;display:flex;align-items:center;gap:14px;width:100%;border:1px solid rgba(96,235,191,.17);border-radius:12px;padding:15px 16px;background:rgba(13,31,27,.8);color:#d9ebe7;text-align:left;font:inherit;cursor:pointer;transition:transform .16s ease,border-color .16s ease,background .16s ease,box-shadow .16s ease;overflow:hidden}
+  .fq-braille{
+    font-size:30px;
+    letter-spacing:.18em;
+    color:#b5ffe5
+  }
 
-  .fq-choice:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:#4ef0ae;transform:scaleY(0);transition:transform .16s ease}
+  .fq-actions{
+    display:grid;
+    gap:10px;
+    margin-top:34px;
+    max-width:800px
+  }
 
-  .fq-choice:hover{transform:translateX(4px);border-color:rgba(90,245,186,.58);background:rgba(24,52,45,.92);box-shadow:0 0 22px rgba(65,239,169,.09)}
+  .fq-choice{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    width:100%;
+    border:1px solid rgba(96,235,191,.17);
+    border-radius:12px;
+    padding:15px 16px;
+    background:rgba(13,31,27,.8);
+    color:#d9ebe7;
+    text-align:left;
+    font:inherit;
+    cursor:pointer;
+    transition:
+      transform .16s ease,
+      border-color .16s ease,
+      background .16s ease,
+      box-shadow .16s ease;
+    overflow:hidden
+  }
 
-  .fq-choice:hover:before,.fq-choice.is-pressed:before{transform:scaleY(1)}
+  .fq-choice:before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    width:3px;
+    background:#4ef0ae;
+    transform:scaleY(0);
+    transition:transform .16s ease
+  }
 
-  .fq-choice.is-pressed{transform:translateX(7px) scale(.99);border-color:#55f1b1;background:rgba(42,88,73,.92);box-shadow:0 0 0 2px rgba(85,241,177,.12),0 0 28px rgba(85,241,177,.2)}
+  .fq-choice:hover{
+    transform:translateX(4px);
+    border-color:rgba(90,245,186,.58);
+    background:rgba(24,52,45,.92);
+    box-shadow:0 0 22px rgba(65,239,169,.09)
+  }
 
-  .fq-choice-num{font-family:ui-monospace,monospace;font-size:11px;color:#5d9b8e;min-width:25px}
+  .fq-choice:hover:before,
+  .fq-choice.is-pressed:before{
+    transform:scaleY(1)
+  }
 
-  .fq-choice b{margin-left:auto;color:#5feeb2;font-size:22px;font-weight:400}
+  .fq-choice.is-pressed{
+    transform:translateX(7px) scale(.99);
+    border-color:#55f1b1;
+    background:rgba(42,88,73,.92);
+    box-shadow:
+      0 0 0 2px rgba(85,241,177,.12),
+      0 0 28px rgba(85,241,177,.2)
+  }
 
-  .fq-side{border-left:1px solid rgba(88,239,184,.12);background:rgba(3,11,10,.4);padding:20px}
+  .fq-choice-num{
+    font-family:ui-monospace,monospace;
+    font-size:11px;
+    color:#5d9b8e;
+    min-width:25px
+  }
 
-  .fq-panel{border:1px solid rgba(88,239,184,.12);border-radius:14px;background:rgba(10,25,22,.62);padding:15px;margin-bottom:12px}
+  .fq-choice b{
+    margin-left:auto;
+    color:#5feeb2;
+    font-size:22px;
+    font-weight:400
+  }
 
-  .fq-panel-title{margin-bottom:12px}
+  .fq-side{
+    border-left:1px solid rgba(88,239,184,.12);
+    background:rgba(3,11,10,.4);
+    padding:20px
+  }
 
-  .fq-stat{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(88,239,184,.07);font-size:11px;color:#739d95}
+  .fq-panel{
+    border:1px solid rgba(88,239,184,.12);
+    border-radius:14px;
+    background:rgba(10,25,22,.62);
+    padding:15px;
+    margin-bottom:12px
+  }
 
-  .fq-stat strong{color:#cce9e2;font-family:ui-monospace,monospace;font-size:12px}
+  .fq-panel-title{
+    margin-bottom:12px
+  }
 
-  .fq-bar{height:4px;background:#142a25;border-radius:4px;overflow:hidden;margin:7px 0 5px}
+  .fq-stat{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:7px 0;
+    border-bottom:1px solid rgba(88,239,184,.07);
+    font-size:11px;
+    color:#739d95
+  }
 
-  .fq-bar i{display:block;height:100%;background:#4ef0ae;box-shadow:0 0 9px rgba(78,240,174,.55);transition:width .35s ease}
+  .fq-stat strong{
+    color:#cce9e2;
+    font-family:ui-monospace,monospace;
+    font-size:12px
+  }
 
-  .fq-inventory{display:flex;flex-wrap:wrap;gap:6px}
+  .fq-bar{
+    height:4px;
+    background:#142a25;
+    border-radius:4px;
+    overflow:hidden;
+    margin:7px 0 5px
+  }
 
-  .fq-inventory span{font-size:10px;border:1px solid rgba(88,239,184,.12);padding:5px 7px;border-radius:6px;color:#9ac7bd;background:rgba(88,239,184,.035)}
+  .fq-bar i{
+    display:block;
+    height:100%;
+    background:#4ef0ae;
+    box-shadow:0 0 9px rgba(78,240,174,.55);
+    transition:width .35s ease
+  }
 
-  .fq-log-item{font-size:10px;line-height:1.45;color:#769d96;padding:5px 0;border-bottom:1px solid rgba(88,239,184,.06)}
+  .fq-inventory{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px
+  }
 
-  .fq-muted{font-size:10px;color:#55736e}
+  .fq-inventory span{
+    font-size:10px;
+    border:1px solid rgba(88,239,184,.12);
+    padding:5px 7px;
+    border-radius:6px;
+    color:#9ac7bd;
+    background:rgba(88,239,184,.035)
+  }
 
-  .fq-puzzle{margin-top:28px;border:1px solid rgba(89,239,184,.24);border-radius:14px;padding:17px;background:rgba(20,51,42,.42);max-width:800px}
+  .fq-log-item{
+    font-size:10px;
+    line-height:1.45;
+    color:#769d96;
+    padding:5px 0;
+    border-bottom:1px solid rgba(88,239,184,.06)
+  }
 
-  .fq-puzzle-label{color:#59e9b0}
+  .fq-muted{
+    font-size:10px;
+    color:#55736e
+  }
 
-  .fq-puzzle-prompt{margin:11px 0 12px;color:#d5e9e4;line-height:1.5}
+  .fq-puzzle{
+    margin-top:28px;
+    border:1px solid rgba(89,239,184,.24);
+    border-radius:14px;
+    padding:17px;
+    background:rgba(20,51,42,.42);
+    max-width:800px
+  }
 
-  .fq-puzzle-row{display:flex;gap:8px}
+  .fq-puzzle-label{
+    color:#59e9b0
+  }
 
-  .fq-puzzle input{flex:1;min-width:0;background:#06100e;border:1px solid rgba(88,239,184,.22);border-radius:9px;padding:12px;color:#eafff9;outline:none}
+  .fq-puzzle-prompt{
+    margin:11px 0 12px;
+    color:#d5e9e4;
+    line-height:1.5
+  }
 
-  .fq-puzzle input:focus{border-color:#5aefb2;box-shadow:0 0 0 3px rgba(90,239,178,.08)}
+  .fq-puzzle-row{
+    display:flex;
+    gap:8px
+  }
 
-  .fq-puzzle button,.fq-restart{border:1px solid rgba(88,239,184,.4);border-radius:9px;background:#123b30;color:#bfffe9;padding:0 16px;font-weight:800;cursor:pointer}
+  .fq-puzzle input{
+    flex:1;
+    min-width:0;
+    background:#06100e;
+    border:1px solid rgba(88,239,184,.22);
+    border-radius:9px;
+    padding:12px;
+    color:#eafff9;
+    outline:none
+  }
 
-  .fq-puzzle-result{min-height:20px;margin-top:10px;font-size:11px;letter-spacing:.08em}
+  .fq-puzzle input:focus{
+    border-color:#5aefb2;
+    box-shadow:0 0 0 3px rgba(90,239,178,.08)
+  }
 
-  .fq-puzzle-result .ok{color:#55efae}
+  .fq-puzzle button,
+  .fq-restart{
+    border:1px solid rgba(88,239,184,.4);
+    border-radius:9px;
+    background:#123b30;
+    color:#bfffe9;
+    padding:0 16px;
+    font-weight:800;
+    cursor:pointer
+  }
 
-  .fq-puzzle-result .bad{color:#ff8b8b}
+  .fq-puzzle-result{
+    min-height:20px;
+    margin-top:10px;
+    font-size:11px;
+    letter-spacing:.08em
+  }
 
-  .fq-ending{margin-top:34px;padding:30px;border:1px solid rgba(83,241,178,.3);border-radius:16px;background:linear-gradient(145deg,rgba(29,78,62,.5),rgba(6,22,18,.7));animation:fqIn .4s ease}
+  .fq-puzzle-result .ok{
+    color:#55efae
+  }
 
-  .fq-ending h2{font-size:26px;letter-spacing:.04em;margin:7px 0 10px;color:#eafff7}
+  .fq-puzzle-result .bad{
+    color:#ff8b8b
+  }
 
-  .fq-ending p{color:#9fc4bb;line-height:1.6}
+  .fq-ending{
+    margin-top:34px;
+    padding:30px;
+    border:1px solid rgba(83,241,178,.3);
+    border-radius:16px;
+    background:linear-gradient(
+      145deg,
+      rgba(29,78,62,.5),
+      rgba(6,22,18,.7)
+    );
+    animation:fqIn .4s ease
+  }
 
-  .fq-restart{height:44px;margin-top:14px}
+  .fq-ending h2{
+    font-size:26px;
+    letter-spacing:.04em;
+    margin:7px 0 10px;
+    color:#eafff7
+  }
+
+  .fq-ending p{
+    color:#9fc4bb;
+    line-height:1.6
+  }
+
+  .fq-restart{
+    height:44px;
+    margin-top:14px
+  }
 
   @keyframes fqIn{
-    from{opacity:0;transform:translateY(8px)}
-    to{opacity:1;transform:none}
+    from{
+      opacity:0;
+      transform:translateY(8px)
+    }
+    to{
+      opacity:1;
+      transform:none
+    }
   }
 
   @keyframes fqPulse{
-    0%,100%{opacity:.55;transform:scale(.8)}
-    50%{opacity:1;transform:scale(1.15)}
+    0%,100%{
+      opacity:.55;
+      transform:scale(.8)
+    }
+    50%{
+      opacity:1;
+      transform:scale(1.15)
+    }
   }
 
   @media(max-width:800px){
-    .fq-grid{grid-template-columns:1fr}
+    .fq-grid{
+      grid-template-columns:1fr
+    }
 
     .fq-side{
       border-left:0;
@@ -702,15 +1176,25 @@ function injectCSS() {
       gap:10px
     }
 
-    .fq-panel{margin:0}
+    .fq-panel{
+      margin:0
+    }
 
-    .fq-log{grid-column:1/-1}
+    .fq-log{
+      grid-column:1/-1
+    }
 
-    .fq-main{min-height:auto}
+    .fq-main{
+      min-height:auto
+    }
 
-    .fq-story{font-size:16px}
+    .fq-story{
+      font-size:16px
+    }
 
-    .fq-title{font-size:20px}
+    .fq-title{
+      font-size:20px
+    }
   }
 
   @media(max-width:560px){
@@ -719,26 +1203,42 @@ function injectCSS() {
       margin:14px auto
     }
 
-    .fq-shell{border-radius:16px}
+    .fq-shell{
+      border-radius:16px
+    }
 
-    .fq-topbar{padding:16px}
+    .fq-topbar{
+      padding:16px
+    }
 
-    .fq-main{padding:24px 17px}
+    .fq-main{
+      padding:24px 17px
+    }
 
     .fq-side{
       padding:12px;
       grid-template-columns:1fr
     }
 
-    .fq-log{grid-column:auto}
+    .fq-log{
+      grid-column:auto
+    }
 
-    .fq-choice{padding:14px 12px}
+    .fq-choice{
+      padding:14px 12px
+    }
 
-    .fq-puzzle-row{flex-direction:column}
+    .fq-puzzle-row{
+      flex-direction:column
+    }
 
-    .fq-puzzle button{height:42px}
+    .fq-puzzle button{
+      height:42px
+    }
 
-    .fq-status{display:none}
+    .fq-status{
+      display:none
+    }
   }
   `;
 
@@ -751,7 +1251,7 @@ function injectCSS() {
 function boot() {
   let root = document.getElementById(ROOT_ID);
 
-  if(!root) {
+  if (!root) {
     root = document.createElement('div');
     root.id = ROOT_ID;
 
@@ -759,7 +1259,7 @@ function boot() {
       document.currentScript &&
       document.currentScript.parentElement;
 
-    if(target) {
+    if (target) {
       target.appendChild(root);
     } else {
       document.body.appendChild(root);
@@ -770,7 +1270,7 @@ function boot() {
   render();
 }
 
-if(document.readyState === 'loading') {
+if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded',boot);
 } else {
   boot();
