@@ -279,7 +279,7 @@
         if (score > 1000) {
           message.innerHTML =
             '<strong style="display:block;font-size:22px;color:#ff5050;margin-bottom:7px;">' +
-            '🔐 Код приквела: «пиупиу»</strong>' +
+            '🔐 Код приквела: «Антон ЛОХ =)»</strong>' +
             '<span style="color:#f0cccc;">Секретный код обнаружен. Используй его в игре!</span>';
         } else {
           message.textContent = 'Игра окончена — нажми «Новая игра».';
