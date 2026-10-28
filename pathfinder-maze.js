@@ -1,3 +1,4 @@
+
 (function () {
   'use strict';
 
@@ -9,18 +10,15 @@
     var restart2 = document.getElementById('pp-2048-new');
     var message = document.getElementById('pp-2048-message');
 
-    if (!board || !scoreEl || !bestEl || board.getAttribute('data-pp2048-init') === '1') {
+    if (!board || !scoreEl || !bestEl ||
+        board.getAttribute('data-pp2048-init') === '1') {
       return;
     }
 
     board.setAttribute('data-pp2048-init', '1');
 
-    /* ==========================================
-       ОФОРМЛЕНИЕ ИГРЫ
-       ========================================== */
-
+    /* RED TERMINAL THEME */
     var style = document.createElement('style');
-
     style.type = 'text/css';
     style.textContent = `
       .pp-game-terminal {
@@ -31,14 +29,14 @@
         margin: 25px auto !important;
         padding: 22px !important;
         overflow: hidden !important;
-        background: #081411 !important;
-        border: 1px solid #276354 !important;
+        background: #100707 !important;
+        border: 1px solid #842222 !important;
         border-radius: 14px !important;
-        color: #d9eee7 !important;
+        color: #ffe5e5 !important;
         font-family: Arial, Helvetica, sans-serif !important;
         line-height: 1.45 !important;
-        box-shadow: 0 0 25px rgba(0, 0, 0, .25),
-                    inset 0 0 25px rgba(36, 190, 145, .035) !important;
+        box-shadow: 0 0 28px rgba(255,0,0,.12),
+                    inset 0 0 25px rgba(255,0,0,.04) !important;
       }
 
       .pp-game-terminal * {
@@ -55,11 +53,12 @@
       }
 
       .pp-game-terminal .pp-game-kicker {
-        color: #54e6b3 !important;
+        color: #ff4b4b !important;
         font-size: 10px !important;
         font-weight: bold !important;
         letter-spacing: 2px !important;
         margin-bottom: 7px !important;
+        text-shadow: 0 0 10px rgba(255,0,0,.45) !important;
       }
 
       .pp-game-terminal .pp-game-header h3 {
@@ -67,31 +66,33 @@
         margin: 0 0 8px !important;
         border: 0 !important;
         background: transparent !important;
-        color: #f1fff9 !important;
-        font-size: clamp(19px, 4vw, 26px) !important;
+        color: #fff0f0 !important;
+        font-size: clamp(19px,4vw,26px) !important;
         font-weight: 900 !important;
         line-height: 1.2 !important;
         text-transform: uppercase !important;
+        text-shadow: 0 0 14px rgba(255,25,25,.25) !important;
       }
 
       .pp-game-terminal .pp-game-header p {
         margin: 0 !important;
         padding: 0 !important;
-        color: #91b7aa !important;
+        color: #c69a9a !important;
         font-size: 13px !important;
       }
 
       .pp-game-terminal .pp-game-status {
         display: inline-block !important;
         padding: 6px 9px !important;
-        border: 1px solid #286a54 !important;
+        border: 1px solid #a72b2b !important;
         border-radius: 4px !important;
-        color: #65edb8 !important;
-        background: #10281f !important;
+        color: #ff6868 !important;
+        background: #260b0b !important;
         font-size: 9px !important;
         font-weight: bold !important;
         letter-spacing: 1px !important;
         white-space: nowrap !important;
+        box-shadow: 0 0 10px rgba(255,0,0,.08) !important;
       }
 
       .pp-game-terminal .pp-game-stats {
@@ -104,15 +105,15 @@
       .pp-game-terminal .pp-game-stat {
         min-width: 0 !important;
         padding: 12px !important;
-        border: 1px solid #1b4338 !important;
+        border: 1px solid #542020 !important;
         border-radius: 7px !important;
-        background: #0d201a !important;
+        background: #1c0c0c !important;
       }
 
       .pp-game-terminal .pp-game-stat span {
         display: block !important;
         margin-bottom: 5px !important;
-        color: #83aa9c !important;
+        color: #c58c8c !important;
         font-size: 9px !important;
         font-weight: bold !important;
         letter-spacing: 1px !important;
@@ -120,26 +121,29 @@
 
       .pp-game-terminal .pp-game-stat strong {
         display: block !important;
-        color: #62edb7 !important;
+        color: #ff5656 !important;
         font-family: Consolas, monospace !important;
         font-size: 26px !important;
         font-weight: 900 !important;
         line-height: 1.15 !important;
+        text-shadow: 0 0 12px rgba(255,0,0,.22) !important;
       }
 
       .pp-game-terminal #pp-2048-board {
         display: grid !important;
-        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-        grid-template-rows: repeat(4, minmax(0, 1fr)) !important;
-        gap: clamp(5px, 1.5vw, 9px) !important;
+        grid-template-columns: repeat(4,minmax(0,1fr)) !important;
+        grid-template-rows: repeat(4,minmax(0,1fr)) !important;
+        gap: clamp(5px,1.5vw,9px) !important;
         width: 100% !important;
         max-width: 440px !important;
         margin: 0 auto !important;
-        padding: clamp(7px, 2vw, 11px) !important;
+        padding: clamp(7px,2vw,11px) !important;
         aspect-ratio: 1 / 1 !important;
-        border: 1px solid #245447 !important;
+        border: 1px solid #8c2929 !important;
         border-radius: 10px !important;
-        background: #06100d !important;
+        background: #080303 !important;
+        box-shadow: inset 0 0 22px rgba(255,0,0,.09),
+                    0 0 16px rgba(255,0,0,.07) !important;
         touch-action: none !important;
         user-select: none !important;
         -webkit-user-select: none !important;
@@ -156,16 +160,18 @@
         margin: 0 !important;
         padding: 0 !important;
         overflow: hidden !important;
-        border: 1px solid #183a30 !important;
+        border: 1px solid #542020 !important;
         border-radius: 7px !important;
-        background: #10221b !important;
-        color: #e9fff5 !important;
-        font-family: Consolas, Arial, sans-serif !important;
-        font-size: clamp(17px, 5vw, 34px) !important;
+        background: #210e0e !important;
+        color: #fff0f0 !important;
+        font-family: Consolas,Arial,sans-serif !important;
+        font-size: clamp(17px,5vw,34px) !important;
         font-weight: 900 !important;
         line-height: 1 !important;
         text-align: center !important;
         box-shadow: none !important;
+        transition: background-color .12s ease,
+                    transform .08s ease !important;
       }
 
       .pp-game-terminal .pp-game-controls {
@@ -180,43 +186,50 @@
         min-height: 43px !important;
         margin: 0 !important;
         padding: 10px 12px !important;
-        border: 1px solid #317a60 !important;
+        border: 1px solid #a52c2c !important;
         border-radius: 6px !important;
-        background: #15392b !important;
-        color: #dffff1 !important;
-        font-family: Arial, Helvetica, sans-serif !important;
+        background: #350d0d !important;
+        color: #ffeaea !important;
+        font-family: Arial,Helvetica,sans-serif !important;
         font-size: 12px !important;
         font-weight: bold !important;
         text-align: center !important;
         text-shadow: none !important;
         cursor: pointer !important;
-        box-shadow: none !important;
+        box-shadow: 0 0 10px rgba(255,0,0,.05) !important;
+        transition: background .15s ease,
+                    box-shadow .15s ease !important;
       }
 
       .pp-game-terminal .pp-game-controls button:hover {
-        background: #20583f !important;
-        border-color: #55d9a4 !important;
+        background: #651414 !important;
+        border-color: #ff5555 !important;
+        box-shadow: 0 0 14px rgba(255,0,0,.2) !important;
       }
 
       .pp-game-terminal #pp-2048-message {
         margin-top: 13px !important;
         padding: 12px !important;
-        border: 1px solid #2a5b49 !important;
+        border: 1px solid #702323 !important;
         border-radius: 6px !important;
-        background: #10251c !important;
-        color: #d6f7e6 !important;
+        background: #210b0b !important;
+        color: #ffdddd !important;
         font-size: 13px !important;
         text-align: center !important;
         overflow-wrap: anywhere !important;
+      }
+
+      .pp-game-terminal #pp-2048-message strong {
+        color: #ff5050 !important;
       }
 
       .pp-game-terminal #pp-2048-message button {
         display: inline-block !important;
         margin: 10px 0 0 !important;
         padding: 8px 14px !important;
-        border: 1px solid #4cba8b !important;
+        border: 1px solid #ff5555 !important;
         border-radius: 5px !important;
-        background: #174b35 !important;
+        background: #4a1010 !important;
         color: #fff !important;
         font-weight: bold !important;
         cursor: pointer !important;
@@ -224,7 +237,7 @@
 
       .pp-game-terminal .pp-game-hint {
         margin-top: 13px !important;
-        color: #638b7c !important;
+        color: #a36b6b !important;
         font-size: 9px !important;
         font-weight: bold !important;
         letter-spacing: 1px !important;
@@ -253,10 +266,6 @@
     `;
 
     document.head.appendChild(style);
-
-    /* ==========================================
-       ЛОГИКА 2048
-       ========================================== */
 
     var size = 4;
     var grid = [];
@@ -319,20 +328,20 @@
 
     function tileColor(v) {
       var colors = {
-        2: '#58f0c0',
-        4: '#48dfb2',
-        8: '#38cfa4',
-        16: '#2fbd98',
-        32: '#27aa8b',
-        64: '#22977e',
-        128: '#1d826f',
-        256: '#176e61',
-        512: '#12594f',
-        1024: '#0d463f',
-        2048: '#f0c95a'
+        2: '#ffd6d6',
+        4: '#ffaaaa',
+        8: '#ff7777',
+        16: '#ff5050',
+        32: '#f52d36',
+        64: '#df1725',
+        128: '#c20f20',
+        256: '#a90b1b',
+        512: '#850916',
+        1024: '#650611',
+        2048: '#ff2020'
       };
 
-      return colors[v] || '#082f2a';
+      return colors[v] || '#42070d';
     }
 
     function render() {
@@ -346,7 +355,6 @@
       for (r = 0; r < size; r++) {
         for (c = 0; c < size; c++) {
           v = grid[r][c];
-
           cell = document.createElement('div');
           cell.className = 'pp2048-cell';
 
@@ -354,10 +362,10 @@
             cell.textContent = String(v);
             cell.style.backgroundColor = tileColor(v);
             cell.style.borderColor = tileColor(v);
-            cell.style.color = v >= 128 ? '#ffffff' : '#03100b';
+            cell.style.color = v >= 128 ? '#ffffff' : '#260606';
 
             if (v >= 1024) {
-              cell.style.fontSize = 'clamp(15px, 4vw, 27px)';
+              cell.style.fontSize = 'clamp(15px,4vw,27px)';
             }
           } else {
             cell.textContent = '';
@@ -379,9 +387,10 @@
 
         if (score > 1000) {
           message.innerHTML =
-            '<strong style="display:block;font-size:22px;color:#43f0a4;margin-bottom:7px;">' +
+            '<strong style="display:block;font-size:22px;' +
+            'color:#ff5050;margin-bottom:7px;">' +
             '🔐 Код приквела: «пиупиу»</strong>' +
-            '<span style="color:#d0ded9;">' +
+            '<span style="color:#f0cccc;">' +
             'Секретный код обнаружен. Используй его в игре!</span>';
         } else {
           message.textContent = 'Игра окончена — нажми «Новая игра».';
@@ -389,9 +398,10 @@
       } else if (won && !continueAfterWin) {
         message.style.display = 'block';
         message.innerHTML =
-          '<strong style="color:#65edb8;">🎉 Ты достиг 2048!</strong><br>' +
-          'Можно завершить игру или продолжить.<br>' +
-          '<button type="button" id="pp-2048-continue">Продолжить игру</button>';
+          '<strong>🎉 Ты достиг 2048!</strong><br>' +
+          'Можно продолжить игру.<br>' +
+          '<button type="button" id="pp-2048-continue">' +
+          'Продолжить игру</button>';
       } else {
         message.style.display = 'none';
         message.textContent = '';
@@ -560,21 +570,13 @@
       var k = e.key;
       var d = null;
 
-      if (
-        k === 'ArrowLeft' || k === 'a' || k === 'A'
-      ) {
+      if (k === 'ArrowLeft' || k === 'a' || k === 'A') {
         d = 'left';
-      } else if (
-        k === 'ArrowRight' || k === 'd' || k === 'D'
-      ) {
+      } else if (k === 'ArrowRight' || k === 'd' || k === 'D') {
         d = 'right';
-      } else if (
-        k === 'ArrowUp' || k === 'w' || k === 'W'
-      ) {
+      } else if (k === 'ArrowUp' || k === 'w' || k === 'W') {
         d = 'up';
-      } else if (
-        k === 'ArrowDown' || k === 's' || k === 'S'
-      ) {
+      } else if (k === 'ArrowDown' || k === 's' || k === 'S') {
         d = 'down';
       }
 
@@ -640,7 +642,6 @@
 
         if (target && target.id === 'pp-2048-continue') {
           e.preventDefault();
-
           continueAfterWin = true;
           render();
         }
