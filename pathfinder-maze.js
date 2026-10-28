@@ -1,4 +1,3 @@
-
 (function () {
   'use strict';
 
@@ -164,7 +163,9 @@
       var a = [];
       for (var r = 0; r < size; r++) {
         a[r] = [];
-        for (var c = 0; c < size; c++) a[r][c] = 0;
+        for (var c = 0; c < size; c++) {
+          a[r][c] = 0;
+        }
       }
       return a;
     }
@@ -182,30 +183,45 @@
     function addTile() {
       var cells = getEmpty();
       if (!cells.length) return;
+
       var p = cells[Math.floor(Math.random() * cells.length)];
       grid[p.r][p.c] = Math.random() < 0.9 ? 2 : 4;
     }
 
-    /* Каждый номинал имеет свой оттенок */
+    /*
+     * ПАЛИТРА ИГРЫ:
+     * 2    — очень светло-красный
+     * 4    — светло-красный
+     * 8    — розово-красный
+     * 16   — насыщенный красный
+     * 32   — ярко-красный
+     * 64   — красный
+     * 128  — тёмно-красный
+     * 256  — ещё темнее
+     * 512  — глубокий красный
+     * 1024 — очень тёмный красный
+     * 2048 — самый тёмный красный
+     */
     function tileColor(v) {
       var colors = {
-        2:    '#ffe0e0',
-        4:    '#ffc2c2',
-        8:    '#ff9b9b',
-        16:   '#ff7777',
-        32:   '#ff5555',
-        64:   '#f53838',
-        128:  '#e52630',
-        256:  '#cf1928',
-        512:  '#b51024',
-        1024: '#930b1c',
-        2048: '#ff101f'
+        2:    '#FFE5E5',
+        4:    '#FFC6C6',
+        8:    '#FFAAAA',
+        16:   '#FF8888',
+        32:   '#F96868',
+        64:   '#F04444',
+        128:  '#DC2929',
+        256:  '#BD1E27',
+        512:  '#9D1723',
+        1024: '#7C111D',
+        2048: '#570B17'
       };
-      return colors[v] || '#570711';
+
+      return colors[v] || '#3A080F';
     }
 
     function tileTextColor(v) {
-      return v <= 16 ? '#431010' : '#ffffff';
+      return v <= 16 ? '#541010' : '#FFFFFF';
     }
 
     function render() {
@@ -215,21 +231,36 @@
         for (var c = 0; c < size; c++) {
           var v = grid[r][c];
           var cell = document.createElement('div');
+
           cell.className = 'pp2048-cell';
 
           if (v) {
+            var color = tileColor(v);
+
             cell.textContent = String(v);
-            cell.style.backgroundColor = tileColor(v);
-            cell.style.borderColor = tileColor(v);
-            cell.style.color = tileTextColor(v);
+
+            /*
+             * ВАЖНО:
+             * На сайте у фона клетки прописан CSS с !important.
+             * Обычного cell.style.backgroundColor недостаточно:
+             * внешний стиль может его перекрыть.
+             * setProperty с третьим аргументом important
+             * гарантирует правильный цвет каждой плитки.
+             */
+            cell.style.setProperty('background-color', color, 'important');
+            cell.style.setProperty('border-color', color, 'important');
+            cell.style.setProperty('color', tileTextColor(v), 'important');
+
+            cell.style.setProperty(
+              'box-shadow',
+              v === 2048
+                ? '0 0 16px rgba(255,40,55,.35)'
+                : 'inset 0 0 0 1px rgba(255,255,255,.08)',
+              'important'
+            );
 
             if (v >= 1024) {
-              cell.style.fontSize = 'clamp(15px,4vw,27px)';
-            }
-
-            if (v === 2048) {
-              cell.style.boxShadow = '0 0 18px rgba(255,16,31,.75)';
-              cell.style.borderColor = '#ff7777';
+              cell.style.setProperty('font-size', 'clamp(15px,4vw,27px)', 'important');
             }
           }
 
@@ -266,7 +297,10 @@
     }
 
     function slide(line) {
-      var a = line.filter(function (x) { return x !== 0; });
+      var a = line.filter(function (x) {
+        return x !== 0;
+      });
+
       var out = [];
       var gain = 0;
 
@@ -282,6 +316,7 @@
       }
 
       while (out.length < size) out.push(0);
+
       return { line: out, score: gain };
     }
 
@@ -291,10 +326,12 @@
       for (var r = 0; r < size; r++) {
         for (var c = 0; c < size; c++) {
           var v = grid[r][c];
+
           if (r < size - 1 && grid[r + 1][c] === v) return true;
           if (c < size - 1 && grid[r][c + 1] === v) return true;
         }
       }
+
       return false;
     }
 
@@ -308,21 +345,34 @@
       if (direction === 'left' || direction === 'right') {
         for (r = 0; r < size; r++) {
           line = grid[r].slice();
+
           if (direction === 'right') line.reverse();
+
           res = slide(line);
           gain += res.score;
+
           if (direction === 'right') res.line.reverse();
+
           grid[r] = res.line;
         }
       } else {
         for (c = 0; c < size; c++) {
           line = [];
-          for (r = 0; r < size; r++) line.push(grid[r][c]);
+
+          for (r = 0; r < size; r++) {
+            line.push(grid[r][c]);
+          }
+
           if (direction === 'down') line.reverse();
+
           res = slide(line);
           gain += res.score;
+
           if (direction === 'down') res.line.reverse();
-          for (r = 0; r < size; r++) grid[r][c] = res.line[r];
+
+          for (r = 0; r < size; r++) {
+            grid[r][c] = res.line[r];
+          }
         }
       }
 
@@ -332,6 +382,7 @@
 
       if (score > best) {
         best = score;
+
         try {
           localStorage.setItem('pp2048_best', String(best));
         } catch (e) {}
@@ -347,7 +398,9 @@
       }
 
       addTile();
+
       if (!hasMoves()) gameOver = true;
+
       render();
     }
 
@@ -385,6 +438,7 @@
 
     function touchStart(e) {
       if (!e.touches || !e.touches.length) return;
+
       touchStartX = e.touches[0].clientX;
       touchStartY = e.touches[0].clientY;
     }
@@ -406,6 +460,7 @@
 
     function bindButton(btn) {
       if (!btn) return;
+
       btn.addEventListener('click', function (e) {
         if (e && e.preventDefault) e.preventDefault();
         newGame();
@@ -416,12 +471,14 @@
     bindButton(restart2);
 
     document.addEventListener('keydown', keyHandler, false);
+
     board.addEventListener('touchstart', touchStart, { passive: true });
     board.addEventListener('touchend', touchEnd, { passive: true });
 
     if (message) {
       message.addEventListener('click', function (e) {
         var target = e.target || e.srcElement;
+
         if (target && target.id === 'pp-2048-continue') {
           e.preventDefault();
           continueAfterWin = true;
