@@ -1,4 +1,4 @@
-```javascript
+javascript
 (function () {
   'use strict';
 
@@ -441,4 +441,3 @@
     initArkanoid();
   }
 })();
-```
