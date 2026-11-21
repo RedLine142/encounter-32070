@@ -71,401 +71,155 @@
     const style = document.createElement('style');
     style.textContent = `
       #pp-arkanoid-game {
-        box-sizing:border-box;
-        width:100%;
-        max-width:900px;
-        margin:20px auto;
-        padding:18px;
-        color:#edf5ff;
-        background:#080d1b;
-        border:2px solid #263e65;
-        border-radius:12px;
-        font-family:Consolas,"Courier New",monospace;
-        box-shadow:0 0 28px rgba(49,232,255,.12);
+        box-sizing:border-box;width:100%;max-width:900px;margin:20px auto;padding:18px;
+        color:#fff7dc;background:#071b4b;border:2px solid #d7ad45;border-radius:10px;
+        font-family:Arial,Helvetica,sans-serif;
+        box-shadow:0 0 0 4px #0b2c70,0 0 30px rgba(0,0,0,.4),inset 0 0 28px rgba(85,155,255,.13);
       }
-
-      #pp-arkanoid-game * { box-sizing:border-box; }
-
-      #pp-arkanoid-game .pa-header {
-        display:block !important;
-        width:100% !important;
-        margin:0 !important;
-        padding:0 0 10px !important;
-        text-align:center !important;
-        line-height:1.2 !important;
+      #pp-arkanoid-game *{box-sizing:border-box}
+      #pp-arkanoid-game .pa-header{
+        display:block!important;width:100%!important;margin:0!important;padding:0 0 10px!important;
+        text-align:center!important;line-height:1.2!important;
+        border-bottom:1px solid rgba(224,190,99,.5)!important;
       }
-
-      #pp-arkanoid-game .pa-brand {
-        display:block !important;
-        margin:0 0 5px !important;
-        padding:0 !important;
-        color:#31e8ff !important;
-        font-size:10px !important;
-        line-height:1.2 !important;
-        letter-spacing:4px !important;
+      #pp-arkanoid-game .pa-brand{
+        display:block!important;margin:0 0 5px!important;padding:0!important;
+        color:#f1d98e!important;font-size:10px!important;line-height:1.2!important;
+        letter-spacing:4px!important;font-weight:bold!important;
       }
-
-      #pp-arkanoid-game .pa-title {
-        display:block !important;
-        margin:0 !important;
-        padding:0 !important;
-        color:#ffe45e !important;
-        font-size:clamp(28px,5.5vw,46px) !important;
-        font-weight:900 !important;
-        letter-spacing:4px !important;
-        line-height:1.05 !important;
-        text-shadow:3px 3px #a34822 !important;
+      #pp-arkanoid-game .pa-title{
+        display:block!important;margin:0!important;padding:0!important;color:#fff!important;
+        font-size:clamp(28px,5.5vw,46px)!important;font-weight:900!important;
+        letter-spacing:4px!important;line-height:1.05!important;
+        text-shadow:0 2px 0 #09245b,0 0 18px rgba(255,220,130,.25)!important;
       }
-
-      #pp-arkanoid-game .pa-subtitle {
-        display:block !important;
-        margin:5px 0 0 !important;
-        padding:0 !important;
-        color:#91a9d0 !important;
-        font-size:10px !important;
-        line-height:1.2 !important;
-        letter-spacing:2px !important;
+      #pp-arkanoid-game .pa-subtitle{
+        display:block!important;margin:5px 0 0!important;padding:0!important;
+        color:#b8cbed!important;font-size:10px!important;line-height:1.2!important;letter-spacing:2px!important;
       }
-
-      #pp-arkanoid-game .pa-stats {
-        display:flex !important;
-        flex-flow:row nowrap !important;
-        align-items:stretch !important;
-        justify-content:space-between !important;
-        gap:8px !important;
-        width:100% !important;
-        min-width:0 !important;
-        margin:0 0 10px !important;
-        padding:0 !important;
+      #pp-arkanoid-game .pa-stats{
+        display:flex!important;flex-flow:row nowrap!important;align-items:stretch!important;
+        justify-content:space-between!important;gap:8px!important;width:100%!important;
+        min-width:0!important;margin:12px 0 10px!important;padding:0!important;
       }
-
-      #pp-arkanoid-game .pa-stats > .pa-stat {
-        display:flex !important;
-        flex:1 1 0 !important;
-        flex-direction:column !important;
-        align-items:center !important;
-        justify-content:center !important;
-        box-sizing:border-box !important;
-        position:static !important;
-        float:none !important;
-        inset:auto !important;
-        width:0 !important;
-        min-width:0 !important;
-        max-width:none !important;
-        height:auto !important;
-        min-height:48px !important;
-        margin:0 !important;
-        padding:7px 3px !important;
-        overflow:hidden !important;
-        white-space:nowrap !important;
-        text-align:center !important;
-        background:#101a30 !important;
-        border:1px solid #263e65 !important;
-        border-radius:6px !important;
-        color:#91a9d0 !important;
-        font-family:Consolas,"Courier New",monospace !important;
-        font-size:9px !important;
-        line-height:1.2 !important;
-        letter-spacing:1px !important;
+      #pp-arkanoid-game .pa-stats>.pa-stat{
+        display:flex!important;flex:1 1 0!important;flex-direction:column!important;
+        align-items:center!important;justify-content:center!important;position:static!important;
+        float:none!important;inset:auto!important;width:0!important;min-width:0!important;
+        max-width:none!important;height:auto!important;min-height:48px!important;
+        margin:0!important;padding:7px 3px!important;overflow:hidden!important;
+        white-space:nowrap!important;text-align:center!important;
+        background:linear-gradient(180deg,#17499c,#0d2d70)!important;
+        border:1px solid #d5ad4d!important;border-radius:6px!important;color:#f1d98e!important;
+        font-family:Arial,Helvetica,sans-serif!important;font-size:9px!important;
+        line-height:1.2!important;letter-spacing:1px!important;
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 3px 8px rgba(0,0,0,.22)!important;
       }
-
-      #pp-arkanoid-game .pa-stats > .pa-stat strong {
-        display:block !important;
-        position:static !important;
-        float:none !important;
-        inset:auto !important;
-        width:auto !important;
-        max-width:100% !important;
-        height:auto !important;
-        margin:4px 0 0 !important;
-        padding:0 !important;
-        color:#31e8ff !important;
-        font-family:Consolas,"Courier New",monospace !important;
-        font-size:21px !important;
-        line-height:1 !important;
-        letter-spacing:0 !important;
+      #pp-arkanoid-game .pa-stats>.pa-stat strong{
+        display:block!important;position:static!important;float:none!important;inset:auto!important;
+        width:auto!important;max-width:100%!important;height:auto!important;margin:4px 0 0!important;
+        padding:0!important;color:#fff!important;font-family:Arial,Helvetica,sans-serif!important;
+        font-size:21px!important;line-height:1!important;letter-spacing:0!important;
+        text-shadow:0 2px 0 #08245b,0 0 10px rgba(255,255,255,.18)!important;
       }
-
-      #pp-arkanoid-game #pa-board {
-        position:relative;
-        width:100%;
-        aspect-ratio:800/520;
-        overflow:hidden;
-        background:#050914;
-        border:2px solid #29476c;
-        border-radius:5px;
-        line-height:normal;
-        user-select:none;
-        -webkit-user-select:none;
-        touch-action:none;
+      #pp-arkanoid-game #pa-board{
+        position:relative;width:100%;aspect-ratio:800/520;overflow:hidden;
+        background:linear-gradient(145deg,#06143b,#0b2b68);
+        border:2px solid #d8b34e;border-radius:7px;line-height:normal;
+        user-select:none;-webkit-user-select:none;touch-action:none;
+        box-shadow:inset 0 0 24px rgba(0,0,0,.55),0 0 14px rgba(0,0,0,.25);
       }
-
-      #pp-arkanoid-game #pa-bricks {
-        position:absolute;
-        inset:0;
+      #pp-arkanoid-game #pa-bricks{position:absolute;inset:0}
+      #pp-arkanoid-game .pa-brick{
+        position:absolute;border:1px solid rgba(255,245,205,.7);border-radius:3px;
+        box-shadow:inset 0 2px rgba(255,255,255,.3),0 2px 4px rgba(0,0,0,.3);
       }
-
-      #pp-arkanoid-game .pa-brick {
-        position:absolute;
-        border:1px solid rgba(255,255,255,.45);
-        border-radius:3px;
-        box-shadow:inset 0 2px rgba(255,255,255,.22),
-                   0 2px 4px rgba(0,0,0,.3);
+      #pp-arkanoid-game #pa-ball{
+        position:absolute;width:1.75%;height:1.35%;min-width:7px;min-height:7px;border-radius:50%;
+        background:#fff8d8;box-shadow:0 0 10px #ffe18a,0 0 22px rgba(255,215,105,.8);
+        transform:translate(-50%,-50%);pointer-events:none;
       }
-
-      #pp-arkanoid-game #pa-ball {
-        position:absolute;
-        width:1.75%;
-        height:1.35%;
-        min-width:7px;
-        min-height:7px;
-        border-radius:50%;
-        background:#fff7b1;
-        box-shadow:0 0 10px #ffe45e,0 0 20px rgba(255,228,94,.55);
-        transform:translate(-50%,-50%);
-        pointer-events:none;
+      #pp-arkanoid-game #pa-paddle{
+        position:absolute;height:2.5%;border-radius:5px;
+        background:linear-gradient(180deg,#fff0b0,#d5a83c);
+        border:1px solid #fff0b0;box-shadow:0 0 12px rgba(255,211,105,.5);pointer-events:none;
       }
-
-      #pp-arkanoid-game #pa-paddle {
-        position:absolute;
-        height:2.5%;
-        border-radius:5px;
-        background:linear-gradient(180deg,#a3f8ff,#31bde9);
-        border:1px solid #c5fbff;
-        box-shadow:0 0 12px rgba(49,232,255,.45);
-        pointer-events:none;
+      #pp-arkanoid-game #pa-message{
+        position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;
+        align-items:center;justify-content:center;padding:18px;text-align:center;
+        color:#fff1bd;background:rgba(4,16,48,.9);font-weight:bold;
+        font-size:clamp(14px,2.5vw,23px);letter-spacing:2px;line-height:1.6;
       }
-
-      #pp-arkanoid-game #pa-message {
-        position:absolute;
-        inset:0;
-        z-index:5;
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        justify-content:center;
-        padding:18px;
-        text-align:center;
-        color:#d6e7ff;
-        background:rgba(5,9,20,.86);
-        font-weight:bold;
-        font-size:clamp(14px,2.5vw,23px);
-        letter-spacing:2px;
-        line-height:1.6;
+      #pp-arkanoid-game #pa-message.pa-hidden{display:none}
+      #pp-arkanoid-game .pa-controls{
+        display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:16px 0 12px;
       }
-
-      #pp-arkanoid-game #pa-message.pa-hidden {
-        display:none;
+      #pp-arkanoid-game .pa-controls button{
+        flex:1 1 120px;max-width:240px;padding:13px 12px;color:#09245b;
+        background:linear-gradient(180deg,#f3d77e,#c99a32);border:1px solid #f0cf72;
+        border-radius:5px;font:bold 12px Arial,Helvetica,sans-serif;letter-spacing:1px;
+        cursor:pointer;touch-action:manipulation;box-shadow:0 3px 0 #805d1d,0 5px 10px rgba(0,0,0,.2);
       }
-
-      #pp-arkanoid-game .pa-controls {
-        display:flex;
-        flex-wrap:wrap;
-        justify-content:center;
-        gap:10px;
-        margin:16px 0 12px;
+      #pp-arkanoid-game .pa-controls #pa-start{
+        color:#09245b;background:linear-gradient(180deg,#fff0b0,#dfb84e);border-color:#fff0b0;
       }
-
-      #pp-arkanoid-game .pa-controls button {
-        flex:1 1 120px;
-        max-width:240px;
-        padding:13px 12px;
-        color:#e8f3ff;
-        background:#172642;
-        border:1px solid #3b5b88;
-        border-radius:5px;
-        font:bold 12px Consolas,"Courier New",monospace;
-        letter-spacing:1px;
-        cursor:pointer;
-        touch-action:manipulation;
+      #pp-arkanoid-game .pa-controls button:hover{filter:brightness(1.1)}
+      #pp-arkanoid-game .pa-controls button:active{transform:translateY(2px);box-shadow:0 1px 0 #805d1d}
+      #pp-arkanoid-game .pa-help{
+        padding:12px 4px;color:#b8cbed;font-size:10px;letter-spacing:1px;
+        text-align:center;line-height:1.7;
       }
-
-      #pp-arkanoid-game .pa-controls #pa-start {
-        color:#07101c;
-        background:#31e8ff;
-        border-color:#31e8ff;
+      #pp-arkanoid-game .pa-touch-controls{display:none}
+      #pp-arkanoid-game:fullscreen,#pp-arkanoid-game:-webkit-full-screen{
+        position:fixed;inset:0;z-index:2147483000;width:100%;max-width:none;height:100%;
+        height:100dvh;margin:0;padding:8px;border:0;border-radius:0;display:flex;
+        flex-direction:column;overflow:auto;background:#071b4b;
       }
-
-      #pp-arkanoid-game .pa-controls button:hover {
-        filter:brightness(1.15);
+      #pp-arkanoid-game:fullscreen .pa-header,#pp-arkanoid-game:-webkit-full-screen .pa-header{padding:0 0 5px}
+      #pp-arkanoid-game:fullscreen .pa-title,#pp-arkanoid-game:-webkit-full-screen .pa-title{font-size:clamp(22px,4vh,36px)}
+      #pp-arkanoid-game:fullscreen .pa-brand,#pp-arkanoid-game:-webkit-full-screen .pa-brand{margin-bottom:3px}
+      #pp-arkanoid-game:fullscreen .pa-subtitle,#pp-arkanoid-game:-webkit-full-screen .pa-subtitle{margin-top:3px}
+      #pp-arkanoid-game:fullscreen .pa-stats,#pp-arkanoid-game:-webkit-full-screen .pa-stats{gap:5px;margin-bottom:6px}
+      #pp-arkanoid-game:fullscreen .pa-stat,#pp-arkanoid-game:-webkit-full-screen .pa-stat{padding:4px}
+      #pp-arkanoid-game:fullscreen .pa-stat strong,#pp-arkanoid-game:-webkit-full-screen .pa-stat strong{margin-top:2px;font-size:18px}
+      #pp-arkanoid-game:fullscreen #pa-board,#pp-arkanoid-game:-webkit-full-screen #pa-board{
+        flex:none;width:min(100%,calc((100dvh - 175px) * 1.53846));
+        max-height:calc(100dvh - 175px);margin:auto;aspect-ratio:800/520;
       }
-
-      #pp-arkanoid-game .pa-help {
-        padding:12px 4px;
-        color:#91a9d0;
-        font-size:10px;
-        letter-spacing:1px;
-        text-align:center;
-        line-height:1.7;
+      #pp-arkanoid-game:fullscreen .pa-controls,#pp-arkanoid-game:-webkit-full-screen .pa-controls{
+        flex:none;margin:6px 0 0;gap:6px;
       }
-
-      #pp-arkanoid-game .pa-touch-controls {
-        display:none;
+      #pp-arkanoid-game:fullscreen .pa-controls button,#pp-arkanoid-game:-webkit-full-screen .pa-controls button{
+        padding:10px 5px;font-size:11px;
       }
-
-      /* Полноэкранный режим */
-      #pp-arkanoid-game:fullscreen,
-      #pp-arkanoid-game:-webkit-full-screen {
-        position:fixed;
-        inset:0;
-        z-index:2147483000;
-        width:100%;
-        max-width:none;
-        height:100%;
-        height:100dvh;
-        margin:0;
-        padding:8px;
-        border:0;
-        border-radius:0;
-        display:flex;
-        flex-direction:column;
-        overflow:auto;
-        background:#080d1b;
+      #pp-arkanoid-game:fullscreen .pa-help,#pp-arkanoid-game:-webkit-full-screen .pa-help{padding:4px}
+      #pp-arkanoid-game .pa-touch-controls button{
+        min-height:54px;font-size:24px;font-weight:bold;color:#fff0b0;
+        background:#17499c;border:1px solid #d5ad4d;border-radius:6px;
+        touch-action:none;user-select:none;-webkit-user-select:none;
       }
-
-      #pp-arkanoid-game:fullscreen .pa-header,
-      #pp-arkanoid-game:-webkit-full-screen .pa-header {
-        padding:0 0 5px;
-      }
-
-      #pp-arkanoid-game:fullscreen .pa-title,
-      #pp-arkanoid-game:-webkit-full-screen .pa-title {
-        font-size:clamp(22px,4vh,36px);
-      }
-
-      #pp-arkanoid-game:fullscreen .pa-brand,
-      #pp-arkanoid-game:-webkit-full-screen .pa-brand {
-        margin-bottom:3px;
-      }
-
-      #pp-arkanoid-game:fullscreen .pa-subtitle,
-      #pp-arkanoid-game:-webkit-full-screen .pa-subtitle {
-        margin-top:3px;
-      }
-
-      #pp-arkanoid-game:fullscreen .pa-stats,
-      #pp-arkanoid-game:-webkit-full-screen .pa-stats {
-        gap:5px;
-        margin-bottom:6px;
-      }
-
-      #pp-arkanoid-game:fullscreen .pa-stat,
-      #pp-arkanoid-game:-webkit-full-screen .pa-stat {
-        padding:4px;
-      }
-
-      #pp-arkanoid-game:fullscreen .pa-stat strong,
-      #pp-arkanoid-game:-webkit-full-screen .pa-stat strong {
-        margin-top:2px;
-        font-size:18px;
-      }
-
-      #pp-arkanoid-game:fullscreen #pa-board,
-      #pp-arkanoid-game:-webkit-full-screen #pa-board {
-        flex:none;
-        width:min(100%,calc((100dvh - 175px) * 1.53846));
-        max-height:calc(100dvh - 175px);
-        margin:auto;
-        aspect-ratio:800/520;
-      }
-
-      #pp-arkanoid-game:fullscreen .pa-controls,
-      #pp-arkanoid-game:-webkit-full-screen .pa-controls {
-        flex:none;
-        margin:6px 0 0;
-        gap:6px;
-      }
-
-      #pp-arkanoid-game:fullscreen .pa-controls button,
-      #pp-arkanoid-game:-webkit-full-screen .pa-controls button {
-        padding:10px 5px;
-        font-size:11px;
-      }
-
-      #pp-arkanoid-game:fullscreen .pa-help,
-      #pp-arkanoid-game:-webkit-full-screen .pa-help {
-        padding:4px;
-      }
-
-      #pp-arkanoid-game .pa-touch-controls button {
-        min-height:54px;
-        font-size:24px;
-        font-weight:bold;
-        color:#31e8ff;
-        background:#172642;
-        border:1px solid #3b5b88;
-        border-radius:8px;
-        touch-action:none;
-        user-select:none;
-        -webkit-user-select:none;
-      }
-
-      @media(max-width:600px) {
-        #pp-arkanoid-game {
-          padding:10px;
+      @media(max-width:600px){
+        #pp-arkanoid-game{padding:10px}
+        #pp-arkanoid-game .pa-stats{gap:5px}
+        #pp-arkanoid-game .pa-stat{font-size:9px}
+        #pp-arkanoid-game .pa-stat strong{font-size:19px}
+        #pp-arkanoid-game:fullscreen .pa-brand,#pp-arkanoid-game:-webkit-full-screen .pa-brand,
+        #pp-arkanoid-game:fullscreen .pa-subtitle,#pp-arkanoid-game:-webkit-full-screen .pa-subtitle,
+        #pp-arkanoid-game:fullscreen .pa-help,#pp-arkanoid-game:-webkit-full-screen .pa-help{display:none}
+        #pp-arkanoid-game:fullscreen,#pp-arkanoid-game:-webkit-full-screen{padding:5px}
+        #pp-arkanoid-game:fullscreen #pa-board,#pp-arkanoid-game:-webkit-full-screen #pa-board{
+          width:min(100%,calc((100dvh - 155px) * 1.53846));max-height:calc(100dvh - 155px);
         }
-
-        #pp-arkanoid-game .pa-stats {
-          gap:5px;
-        }
-
-        #pp-arkanoid-game .pa-stat {
-          font-size:9px;
-        }
-
-        #pp-arkanoid-game .pa-stat strong {
-          font-size:19px;
-        }
-
-        #pp-arkanoid-game:fullscreen .pa-brand,
-        #pp-arkanoid-game:-webkit-full-screen .pa-brand,
-        #pp-arkanoid-game:fullscreen .pa-subtitle,
-        #pp-arkanoid-game:-webkit-full-screen .pa-subtitle,
-        #pp-arkanoid-game:fullscreen .pa-help,
-        #pp-arkanoid-game:-webkit-full-screen .pa-help {
-          display:none;
-        }
-
-        #pp-arkanoid-game:fullscreen,
-        #pp-arkanoid-game:-webkit-full-screen {
-          padding:5px;
-        }
-
-        #pp-arkanoid-game:fullscreen #pa-board,
-        #pp-arkanoid-game:-webkit-full-screen #pa-board {
-          width:min(100%,calc((100dvh - 155px) * 1.53846));
-          max-height:calc(100dvh - 155px);
-        }
-
-        #pp-arkanoid-game .pa-touch-controls {
-          display:flex;
-          justify-content:center;
-          gap:12px;
-          margin-top:8px;
-        }
-
-        #pp-arkanoid-game .pa-touch-controls button {
-          flex:1;
-          max-width:180px;
-        }
-
-        #pp-arkanoid-game:fullscreen .pa-touch-controls,
-        #pp-arkanoid-game:-webkit-full-screen .pa-touch-controls {
-          flex:none;
-          margin-top:5px;
+        #pp-arkanoid-game .pa-touch-controls{display:flex;justify-content:center;gap:12px;margin-top:8px}
+        #pp-arkanoid-game .pa-touch-controls button{flex:1;max-width:180px}
+        #pp-arkanoid-game:fullscreen .pa-touch-controls,#pp-arkanoid-game:-webkit-full-screen .pa-touch-controls{
+          flex:none;margin-top:5px;
         }
       }
-
-      @media(orientation:landscape) and (max-height:500px) {
-        #pp-arkanoid-game:fullscreen .pa-header,
-        #pp-arkanoid-game:-webkit-full-screen .pa-header {
-          display:none;
-        }
-
-        #pp-arkanoid-game:fullscreen #pa-board,
-        #pp-arkanoid-game:-webkit-full-screen #pa-board {
-          width:min(100%,calc((100dvh - 95px) * 1.53846));
-          max-height:calc(100dvh - 95px);
+      @media(orientation:landscape) and (max-height:500px){
+        #pp-arkanoid-game:fullscreen .pa-header,#pp-arkanoid-game:-webkit-full-screen .pa-header{display:none}
+        #pp-arkanoid-game:fullscreen #pa-board,#pp-arkanoid-game:-webkit-full-screen #pa-board{
+          width:min(100%,calc((100dvh - 95px) * 1.53846));max-height:calc(100dvh - 95px);
         }
       }
     `;
@@ -545,7 +299,7 @@
 
       const heading = document.createElement('div');
       heading.textContent = title;
-      heading.style.color = '#ffe45e';
+      heading.style.color = '#ffe18a';
       heading.style.fontSize = 'clamp(22px,5vw,38px)';
       heading.style.fontWeight = '900';
       heading.style.letterSpacing = '3px';
@@ -584,7 +338,7 @@
       bricks = [];
       bricksBox.replaceChildren();
 
-      const brickColor = '#ffd52a';
+      const brickColor = '#d9b24c';
 
       for (let row = 0; row < ROWS; row++) {
         for (let col = 0; col < COLS; col++) {
@@ -721,7 +475,7 @@
           roadHeading.style.fontSize = 'clamp(42px,10vw,76px)';
           roadHeading.style.lineHeight = '1.05';
           roadHeading.style.letterSpacing = '5px';
-          roadHeading.style.textShadow = '4px 4px #a34822, 0 0 22px rgba(255,228,94,.45)';
+          roadHeading.style.textShadow = '0 2px 0 #09245b, 0 0 22px rgba(255,220,130,.75)';
           messageEl.insertBefore(answerLabel, roadHeading);
         }
       } else {
