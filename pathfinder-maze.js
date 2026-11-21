@@ -236,6 +236,39 @@
     function render() {
       board.innerHTML = '';
 
+      if (victory) {
+        board.style.setProperty('display', 'flex', 'important');
+        board.style.setProperty('grid-template-columns', 'none', 'important');
+        board.style.setProperty('grid-template-rows', 'none', 'important');
+        board.style.setProperty('align-items', 'center', 'important');
+        board.style.setProperty('justify-content', 'center', 'important');
+        board.style.setProperty('padding', '12px', 'important');
+
+        var victoryLabel = document.createElement('div');
+        victoryLabel.textContent = 'ВЛАДИВОСТОК';
+        victoryLabel.style.cssText =
+          'display:block;width:100%;max-width:100%;color:#ffd52a;' +
+          'font-family:Arial,Helvetica,sans-serif;font-size:clamp(17px,5vw,34px);' +
+          'font-weight:900;line-height:1.15;letter-spacing:1px;text-align:center;' +
+          'white-space:nowrap;overflow:visible;text-shadow:0 0 18px rgba(255,210,42,.55);';
+        board.appendChild(victoryLabel);
+
+        scoreEl.textContent = String(score);
+        bestEl.textContent = String(best);
+        if (message) {
+          message.style.display = 'none';
+          message.textContent = '';
+        }
+        return;
+      }
+
+      board.style.setProperty('display', 'grid', 'important');
+      board.style.setProperty('grid-template-columns', 'repeat(4,minmax(0,1fr))', 'important');
+      board.style.setProperty('grid-template-rows', 'repeat(4,minmax(0,1fr))', 'important');
+      board.style.setProperty('align-items', 'stretch', 'important');
+      board.style.setProperty('justify-content', 'stretch', 'important');
+      board.style.setProperty('padding', 'clamp(7px,2vw,11px)', 'important');
+
       for (var r = 0; r < size; r++) {
         for (var c = 0; c < size; c++) {
           var v = grid[r][c];
@@ -286,8 +319,8 @@
         message.style.display = 'block';
 
         if (victory) {
-          message.innerHTML =
-            '<strong style="display:block;color:#ffd52a;font-size:clamp(38px,11vw,68px);font-weight:900;line-height:1.05;letter-spacing:3px;text-shadow:0 0 18px rgba(255,210,42,.55);margin:4px 0 8px;">ВЛАДИВОСТОК</strong>';
+          message.style.display = 'none';
+          message.textContent = '';
         } else if (score > 1000) {
           message.innerHTML =
             '<strong style="display:block;font-size:22px;color:#ff5050;margin-bottom:7px;">' +
