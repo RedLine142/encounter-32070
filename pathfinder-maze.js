@@ -33,8 +33,13 @@
       .pp-game-terminal *{box-sizing:border-box}
       .pp-game-terminal .pp-game-header{
         display:flex!important;align-items:flex-start!important;
-        justify-content:space-between!important;gap:12px!important;
-        flex-wrap:wrap!important;margin-bottom:20px!important;
+        justify-content:flex-start!important;gap:0!important;
+        flex-wrap:wrap!important;margin-bottom:14px!important;
+      }
+      .pp-game-terminal .pp-game-kicker,
+      .pp-game-terminal .pp-game-header h3,
+      .pp-game-terminal .pp-game-status{
+        display:none!important;
       }
       .pp-game-terminal .pp-game-kicker{
         color:#ff4b4b!important;font-size:10px!important;font-weight:bold!important;
