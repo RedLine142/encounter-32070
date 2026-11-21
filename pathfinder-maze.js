@@ -414,7 +414,7 @@
 
       if (JSON.stringify(grid) === before) return;
 
-      score += gain;
+      score = Math.min(score + gain, 2000);
 
       if (score > best) {
         best = score;
