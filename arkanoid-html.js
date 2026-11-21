@@ -115,29 +115,55 @@
       }
 
       #pp-arkanoid-game .pa-stats {
-        display:grid;
-        grid-template-columns:repeat(3,minmax(0,1fr));
-        gap:10px;
-        margin-bottom:12px;
+        display:grid !important;
+        grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+        align-items:stretch !important;
+        gap:10px !important;
+        width:100% !important;
+        min-width:0 !important;
+        margin:0 0 12px !important;
+        padding:0 !important;
       }
 
       #pp-arkanoid-game .pa-stat {
-        min-width:0;
-        padding:10px 5px;
-        text-align:center;
-        background:#101a30;
-        border:1px solid #263e65;
-        border-radius:6px;
-        color:#91a9d0;
-        font-size:10px;
-        letter-spacing:1px;
+        display:flex !important;
+        flex-direction:column !important;
+        align-items:center !important;
+        justify-content:center !important;
+        box-sizing:border-box !important;
+        position:relative !important;
+        float:none !important;
+        width:100% !important;
+        min-width:0 !important;
+        max-width:100% !important;
+        margin:0 !important;
+        padding:10px 4px !important;
+        overflow:hidden !important;
+        white-space:nowrap !important;
+        text-align:center !important;
+        background:#101a30 !important;
+        border:1px solid #263e65 !important;
+        border-radius:6px !important;
+        color:#91a9d0 !important;
+        font-family:Consolas,"Courier New",monospace !important;
+        font-size:10px !important;
+        line-height:1.25 !important;
+        letter-spacing:1px !important;
       }
 
       #pp-arkanoid-game .pa-stat strong {
-        display:block;
-        margin-top:6px;
-        color:#31e8ff;
-        font-size:23px;
+        display:block !important;
+        position:static !important;
+        float:none !important;
+        width:auto !important;
+        max-width:100% !important;
+        margin:6px 0 0 !important;
+        padding:0 !important;
+        color:#31e8ff !important;
+        font-family:Consolas,"Courier New",monospace !important;
+        font-size:23px !important;
+        line-height:1.1 !important;
+        letter-spacing:0 !important;
       }
 
       #pp-arkanoid-game #pa-board {
@@ -538,14 +564,7 @@
       bricks = [];
       bricksBox.replaceChildren();
 
-      const colors = [
-        '#ff4f91',
-        '#ff824f',
-        '#ffe45e',
-        '#5dff9b',
-        '#31e8ff',
-        '#9d83ff'
-      ];
+      const brickColor = '#ffd52a';
 
       for (let row = 0; row < ROWS; row++) {
         for (let col = 0; col < COLS; col++) {
@@ -559,7 +578,7 @@
           };
 
           brick.el.className = 'pa-brick';
-          brick.el.style.background = colors[row];
+          brick.el.style.background = brickColor;
           positionElement(
             brick.el,
             brick.x,
