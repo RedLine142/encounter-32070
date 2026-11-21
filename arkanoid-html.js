@@ -35,11 +35,11 @@
     const PADDLE_Y = 482;
     const BRICK_W = 50;
     const BRICK_H = 24;
-    const GAP_X = 8;
+    const GAP_X = 7.69;
     const GAP_Y = 10;
-    const LEFT = 114;
+    const LEFT = 0;
     const TOP = 48;
-    const COLS = 10;
+    const COLS = 14;
     const ROWS = 6;
 
     let bricks = [];
