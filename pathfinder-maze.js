@@ -156,6 +156,9 @@
     `;
     document.head.appendChild(style);
 
+    var statusBadge = document.querySelector('.pp-game-terminal .pp-game-status');
+    if (statusBadge) statusBadge.remove();
+
     var size = 4;
     var grid = [];
     var score = 0;
