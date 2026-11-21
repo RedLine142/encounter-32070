@@ -708,6 +708,22 @@
 
       if (won) {
         setMessage('ДОРОГА', '');
+        const answerLabel = document.createElement('div');
+        answerLabel.textContent = 'Ответ:';
+        answerLabel.style.color = '#31e8ff';
+        answerLabel.style.fontSize = 'clamp(11px,2vw,16px)';
+        answerLabel.style.fontWeight = 'bold';
+        answerLabel.style.letterSpacing = '4px';
+        answerLabel.style.lineHeight = '1.2';
+        answerLabel.style.marginBottom = '10px';
+        const roadHeading = messageEl.querySelector('div');
+        if (roadHeading) {
+          roadHeading.style.fontSize = 'clamp(42px,10vw,76px)';
+          roadHeading.style.lineHeight = '1.05';
+          roadHeading.style.letterSpacing = '5px';
+          roadHeading.style.textShadow = '4px 4px #a34822, 0 0 22px rgba(255,228,94,.45)';
+          messageEl.insertBefore(answerLabel, roadHeading);
+        }
       } else {
         setMessage('ИГРА ОКОНЧЕНА', 'Счёт: ' + score + '. Нажми «ЗАНОВО»');
       }
