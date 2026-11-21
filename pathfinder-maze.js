@@ -36,6 +36,8 @@
         justify-content:flex-start!important;gap:0!important;
         flex-wrap:wrap!important;margin-bottom:14px!important;
       }
+      .pp-game-terminal .pp-game-kicker,
+      .pp-game-terminal .pp-game-header h3,
       .pp-game-terminal .pp-game-status{
         display:none!important;
       }
