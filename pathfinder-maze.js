@@ -149,6 +149,7 @@
     var best = 0;
     var gameOver = false;
     var won = false;
+    var victory = false;
     var continueAfterWin = false;
     var touchStartX = 0;
     var touchStartY = 0;
@@ -276,7 +277,10 @@
       if (gameOver) {
         message.style.display = 'block';
 
-        if (score > 1000) {
+        if (victory) {
+          message.innerHTML =
+            '<strong style="display:block;color:#ffd52a;font-size:clamp(38px,11vw,68px);font-weight:900;line-height:1.05;letter-spacing:3px;text-shadow:0 0 18px rgba(255,210,42,.55);margin:4px 0 8px;">ВЛАДИВОСТОК</strong>';
+        } else if (score > 1000) {
           message.innerHTML =
             '<strong style="display:block;font-size:22px;color:#ff5050;margin-bottom:7px;">' +
             '🔐 Код приквела: «пиу-пиу»</strong>' +
@@ -388,6 +392,13 @@
         } catch (e) {}
       }
 
+      if (score >= 2000) {
+        victory = true;
+        gameOver = true;
+        render();
+        return;
+      }
+
       if (!won) {
         for (r = 0; r < size; r++) {
           if (grid[r].indexOf(2048) !== -1) {
@@ -409,6 +420,7 @@
       score = 0;
       gameOver = false;
       won = false;
+      victory = false;
       continueAfterWin = false;
 
       if (message) {
