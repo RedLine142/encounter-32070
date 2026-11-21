@@ -44,7 +44,7 @@
 
     let bricks = [];
     let score = 0;
-    let lives = 3;
+    let lives = 2;
     let best = 0;
     let paddleX = (W - PADDLE_W) / 2;
     let ballX = W / 2;
@@ -672,7 +672,7 @@
 
       finished = false;
       score = 0;
-      lives = 3;
+      lives = 2;
       keys.left = false;
       keys.right = false;
       touchLeft = false;
@@ -707,7 +707,7 @@
       startBtn.textContent = 'ИГРАТЬ СНОВА';
 
       if (won) {
-        setMessage('ПОБЕДА!', 'Все кирпичи разбиты! Счёт: ' + score);
+        setMessage('ДОРОГА', '');
       } else {
         setMessage('ИГРА ОКОНЧЕНА', 'Счёт: ' + score + '. Нажми «ЗАНОВО»');
       }
