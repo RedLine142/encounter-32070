@@ -33,11 +33,11 @@
     const PADDLE_W = 112;
     const PADDLE_H = 13;
     const PADDLE_Y = 482;
-    const BRICK_W = 68;
-    const BRICK_H = 18;
+    const BRICK_W = 50;
+    const BRICK_H = 24;
     const GAP_X = 8;
     const GAP_Y = 10;
-    const LEFT = 24;
+    const LEFT = 114;
     const TOP = 48;
     const COLS = 10;
     const ROWS = 6;
