@@ -31,9 +31,11 @@
           inset 0 0 25px rgba(255,0,0,.04)!important;
       }
       .pp-game-terminal *{box-sizing:border-box}
-      .pp-game-terminal .pp-game-header,
-      .pp-game-terminal .pp-game-header *,
-      .pp-game-terminal .pp-game-kicker,
+      .pp-game-terminal .pp-game-header{
+        display:flex!important;align-items:flex-start!important;
+        justify-content:flex-start!important;gap:0!important;
+        flex-wrap:wrap!important;margin-bottom:14px!important;
+      }
       .pp-game-terminal .pp-game-status{
         display:none!important;
       }
