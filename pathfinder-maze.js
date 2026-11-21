@@ -156,6 +156,16 @@
     `;
     document.head.appendChild(style);
 
+    var gameHeader = document.querySelector('.pp-game-terminal .pp-game-header');
+    if (gameHeader) {
+      var headerDescription = gameHeader.querySelector('p');
+      if (headerDescription) {
+        gameHeader.replaceChildren(headerDescription);
+      } else {
+        gameHeader.remove();
+      }
+    }
+
     var statusBadge = document.querySelector('.pp-game-terminal .pp-game-status');
     if (statusBadge) statusBadge.remove();
 
