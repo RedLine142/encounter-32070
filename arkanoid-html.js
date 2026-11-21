@@ -87,57 +87,75 @@
       #pp-arkanoid-game * { box-sizing:border-box; }
 
       #pp-arkanoid-game .pa-header {
-        text-align:center;
-        padding:5px 0 18px;
+        display:block !important;
+        width:100% !important;
+        margin:0 !important;
+        padding:0 0 10px !important;
+        text-align:center !important;
+        line-height:1.2 !important;
       }
 
       #pp-arkanoid-game .pa-brand {
-        color:#31e8ff;
-        font-size:11px;
-        letter-spacing:5px;
-        margin-bottom:8px;
+        display:block !important;
+        margin:0 0 5px !important;
+        padding:0 !important;
+        color:#31e8ff !important;
+        font-size:10px !important;
+        line-height:1.2 !important;
+        letter-spacing:4px !important;
       }
 
       #pp-arkanoid-game .pa-title {
-        color:#ffe45e;
-        font-size:clamp(30px,6vw,52px);
-        font-weight:900;
-        letter-spacing:5px;
-        line-height:1.1;
-        text-shadow:3px 3px #a34822;
+        display:block !important;
+        margin:0 !important;
+        padding:0 !important;
+        color:#ffe45e !important;
+        font-size:clamp(28px,5.5vw,46px) !important;
+        font-weight:900 !important;
+        letter-spacing:4px !important;
+        line-height:1.05 !important;
+        text-shadow:3px 3px #a34822 !important;
       }
 
       #pp-arkanoid-game .pa-subtitle {
-        margin-top:8px;
-        color:#91a9d0;
-        font-size:11px;
-        letter-spacing:3px;
+        display:block !important;
+        margin:5px 0 0 !important;
+        padding:0 !important;
+        color:#91a9d0 !important;
+        font-size:10px !important;
+        line-height:1.2 !important;
+        letter-spacing:2px !important;
       }
 
       #pp-arkanoid-game .pa-stats {
-        display:grid !important;
-        grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+        display:flex !important;
+        flex-flow:row nowrap !important;
         align-items:stretch !important;
-        gap:10px !important;
+        justify-content:space-between !important;
+        gap:8px !important;
         width:100% !important;
         min-width:0 !important;
-        margin:0 0 12px !important;
+        margin:0 0 10px !important;
         padding:0 !important;
       }
 
-      #pp-arkanoid-game .pa-stat {
+      #pp-arkanoid-game .pa-stats > .pa-stat {
         display:flex !important;
+        flex:1 1 0 !important;
         flex-direction:column !important;
         align-items:center !important;
         justify-content:center !important;
         box-sizing:border-box !important;
-        position:relative !important;
+        position:static !important;
         float:none !important;
-        width:100% !important;
+        inset:auto !important;
+        width:0 !important;
         min-width:0 !important;
-        max-width:100% !important;
+        max-width:none !important;
+        height:auto !important;
+        min-height:48px !important;
         margin:0 !important;
-        padding:10px 4px !important;
+        padding:7px 3px !important;
         overflow:hidden !important;
         white-space:nowrap !important;
         text-align:center !important;
@@ -146,23 +164,25 @@
         border-radius:6px !important;
         color:#91a9d0 !important;
         font-family:Consolas,"Courier New",monospace !important;
-        font-size:10px !important;
-        line-height:1.25 !important;
+        font-size:9px !important;
+        line-height:1.2 !important;
         letter-spacing:1px !important;
       }
 
-      #pp-arkanoid-game .pa-stat strong {
+      #pp-arkanoid-game .pa-stats > .pa-stat strong {
         display:block !important;
         position:static !important;
         float:none !important;
+        inset:auto !important;
         width:auto !important;
         max-width:100% !important;
-        margin:6px 0 0 !important;
+        height:auto !important;
+        margin:4px 0 0 !important;
         padding:0 !important;
         color:#31e8ff !important;
         font-family:Consolas,"Courier New",monospace !important;
-        font-size:23px !important;
-        line-height:1.1 !important;
+        font-size:21px !important;
+        line-height:1 !important;
         letter-spacing:0 !important;
       }
 
