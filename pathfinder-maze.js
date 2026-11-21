@@ -59,11 +59,19 @@
         letter-spacing:1px!important;white-space:nowrap!important;
       }
       .pp-game-terminal .pp-game-stats{
-        display:grid!important;grid-template-columns:1fr 1fr!important;
-        gap:10px!important;margin-bottom:14px!important;
+        display:flex!important;flex-direction:row!important;
+        align-items:stretch!important;justify-content:stretch!important;
+        flex-wrap:nowrap!important;gap:10px!important;
+        width:100%!important;max-width:none!important;
+        margin:0 0 14px!important;padding:0!important;
+        float:none!important;clear:both!important;
+        position:relative!important;left:auto!important;right:auto!important;
       }
       .pp-game-terminal .pp-game-stat{
-        min-width:0!important;padding:12px!important;
+        display:block!important;flex:1 1 0!important;
+        width:50%!important;max-width:none!important;min-width:0!important;
+        float:none!important;position:static!important;
+        margin:0!important;padding:12px!important;
         border:1px solid #542020!important;border-radius:7px!important;
         background:#1c0c0c!important;
       }
