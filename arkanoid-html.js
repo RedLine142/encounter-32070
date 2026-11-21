@@ -616,7 +616,7 @@
     function updateStats() {
       scoreEl.textContent = String(score);
       bestEl.textContent = String(best);
-      livesEl.textContent = String(lives);
+      livesEl.textContent = String(Math.max(0, lives - 1));
     }
 
     function saveBest() {
